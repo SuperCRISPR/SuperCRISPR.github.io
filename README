@@ -6,3 +6,11 @@ Here is the main page
 
 Type in
 https://SuperCRISPR.github.io
+to visit homepage.
+
+Homepage is restored in the root dir as index.html
+
+To create other pages, add .html files and the link should be:
+
+https://SuperCRISPR.github.io/SuperCRISPR.github.io/[URL]
+
