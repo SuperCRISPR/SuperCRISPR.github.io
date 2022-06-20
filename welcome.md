@@ -1,0 +1,9 @@
+##This repository is mainly used to create a personal website for SuperCRISPR##
+
+each dir only contains single .html file
+Here is the main page
+
+
+###Type in ###
+https://Website.github.io
+###to visit the main page###
