@@ -11,6 +11,13 @@ cd [...]
 克隆仓库
 git clone https://github.com/SuperCRISPR/SuperCRISPR.github.io
 
+注：克隆得到的本地仓库自动与github服务器同步，push/pull时使用的仓库名即为origin
+
+如果非克隆，则使用
+git remote add origin https://github.com/SuperCRISPR/SuperCRISPR.github.io
+关联服务器仓库，之后push/pull时使用的仓库名即为origin
+
+
 进入该目录
 cd SuperCRISPR.github.io
 
@@ -19,7 +26,7 @@ ssh -T git@github.com
 
 远程代码>本地代码
 git pull [仓库] [远程分支]:[本地分支]
-(git pull SuperCRISPR.github.io main)
+(git pull origin main)
 
 
 查看当前目录下库状态
