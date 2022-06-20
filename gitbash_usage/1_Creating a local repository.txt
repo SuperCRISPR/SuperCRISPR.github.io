@@ -1,0 +1,35 @@
+原网址：
+https://zhuanlan.zhihu.com/p/369486197
+
+
+克隆远程代码
+在github仓库中复制Clone or download的https连接（.git）
+
+先切换到存储目录
+cd [...]
+
+克隆仓库
+git clone https://github.com/SuperCRISPR/SuperCRISPR.github.io
+
+进入该目录
+cd SuperCRISPR.github.io
+
+【检查与github连接情况】
+ssh -T git@github.com
+
+远程代码>本地代码
+git pull [仓库] [远程分支]:[本地分支]
+(git pull SuperCRISPR.github.io main)
+
+
+查看当前目录下库状态
+git status
+
+本地提交文件至库
+git add
+确认提交
+git commit -m "需要展示的信息"
+
+本地代码>远程代码
+git push [仓库] [本地分支]:[远程分支]
+(git push origin main）
