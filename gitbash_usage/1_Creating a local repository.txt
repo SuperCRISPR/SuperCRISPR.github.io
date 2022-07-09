@@ -40,6 +40,7 @@ git status
 添加或更新文件后，本地提交文件或所在目录至库
 git add
 确认提交
+使用git add -u自动提交所有文件
 git commit -m "需要展示的信息"
 
 本地代码>远程代码
