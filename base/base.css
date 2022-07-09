@@ -19,48 +19,54 @@ div
 @font-face
 {
     font-family:"Xingkai_jian1";        
-    src:url("Type/Xingkai1.ttf");       
+    src:url("/Type/Xingkai1.ttf");       
     font-weight: normal;
     font-style: normal;
 }
 @font-face
 {
     font-family:"Xingkai_jian2";        
-    src:url("Type/Xingkai2.ttf");       
+    src:url("/Type/Xingkai2.ttf");       
     font-weight: normal;
     font-style: normal;
 }
 @font-face
 {
     font-family:"Futura";        
-    src:url("Type/Futura.ttf");       
+    src:url("/Type/Futura.ttf");       
     font-weight: normal;
     font-style: normal;
 }
 @font-face
 {
     font-family:"DearJ";        
-    src:url("Type/DearJ.ttf");       
+    src:url("/Type/DearJ.ttf");       
     font-weight: normal;
     font-style: normal;
 }
 @font-face
 {
     font-family:"SchoolOut";        
-    src:url("Type/SchoolOut.otf");       
+    src:url("/Type/SchoolOut.otf");       
     font-weight: normal;
     font-style: normal;
 }
 @font-face
 {
     font-family:"Jennifer";        
-    src:url("Type/Jennifer.ttf");       
+    src:url("/Type/Jennifer.ttf");       
     font-weight: normal;
     font-style: normal;
 }@font-face
 {
     font-family:"Jennifer_bold";        
-    src:url("Type/Jennifer_bold.ttf");       
+    src:url("/Type/Jennifer_bold.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}@font-face
+{
+    font-family:"Optima";        
+    src:url("/Type/Optima.ttf");       
     font-weight: normal;
     font-style: normal;
 }
@@ -134,9 +140,10 @@ a:active {color:#0000FF;text-decoration:underline;}  /* 鼠标点击时 */
     display: block;
     color: #f2f2f2;
     text-align: center;
-    padding: 14px 16px;
+    padding: 17px 20px; /*高；宽*/
     text-decoration: none;
-    font-size: 17px;
+    font-family: "Optima";
+    font-size: 22px;
   }
   
 #navbar a:hover {
