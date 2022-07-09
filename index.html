@@ -5,6 +5,23 @@
     <title>SuperCRISPR|Homepage</title>
     <link rel="stylesheet" type="text/css" href="index.css">
     <script type="text/javascript" src="index.js"></script>
+    <!--those should be copied (head)-->
+    <script type="text/javascript" src="/jquery.js"></script>
+    <script type="text/javascript" src="/load.js"></script>
+
+
+    <!--for bootstrap-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/base/base.js"></script>
+    <!-- 引入 Bootstrap -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--for bootstrap-->
+    <link href="/base/base.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--those should be copied (head)-->
 </head>
 <body>
     <div style="height: 500px;width:auto;">
@@ -13,11 +30,7 @@
         <div id="name_Chinese" style="left:33%; top:35%; z-index: 10; position:absolute;color: rgba(242, 221, 190, 0.897);">陈泓宇</div>
     </div>
     <!--导航栏-->
-    <div id="navbar">
-        <a class="active" href="#HOME">Home</a>    <!--activated one-->
-        <a href="#NEWS">News</a>
-        <a href="#CONTACT">Contact</a>
-    </div>
+    <div id="navbar_HOME"></div>
     <!--正文-->
     <div id="main_box">
         <h1 style="font-size:50px;color: rgba(51, 7, 208, 0.893);">Who am I</h1>
@@ -32,7 +45,7 @@
     </div>
     
 
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="/base/base.js"></script>
     <!--浏览器按照代码在文件中的顺序解析HTML代码，如果JavaScript代码在前面被加载，HTML代码还未加载，JavaScript代码将不起作用。-->
 </body>
 </html>
