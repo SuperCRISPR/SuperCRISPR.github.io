@@ -4,6 +4,7 @@ $(function autoload() {
     $('#navbar_MyLife').load('./base/navbar_MyLife.html');
     $('#navbar_AboutMe').load('./base/navbar_AboutMe.html');
     $('#navbar_TreasureHouse').load('./base/navbar_TreasureHouse.html');
+    $('#footer').load('./base/footer.html');
 
 });
 

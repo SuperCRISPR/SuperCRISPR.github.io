@@ -18,14 +18,14 @@ div
 
 @font-face
 {
-    font-family:"Xingkai_jian1";        
+    font-family:"Xingkai1";        
     src:url("../Type/Xingkai1.ttf");       
     font-weight: normal;
     font-style: normal;
 }
 @font-face
 {
-    font-family:"Xingkai_jian2";        
+    font-family:"Xingkai2";        
     src:url("../Type/Xingkai2.ttf");       
     font-weight: normal;
     font-style: normal;
@@ -69,6 +69,32 @@ div
     src:url("../Type/Optima.ttf");       
     font-weight: normal;
     font-style: normal;
+}@font-face
+{
+    font-family:"AaLanSong";        
+    src:url("../Type/AaLanSong.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family:"Xingkai1_min";        
+    src:url("../Type/Xingkai1_min.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}@font-face
+{
+    font-family:"AaLanSong_min";        
+    src:url("../Type/AaLanSong_min.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family:"Xingkai2_min";        
+    src:url("../Type/Xingkai2_min.ttf");       
+    font-weight: normal;
+    font-style: normal;
 }
 
 /*My name*/
@@ -86,7 +112,7 @@ div
     position:absolute;
 
     text-align:center;
-    font-family:"Xingkai_jian1","Xingkai_jian2","微软雅黑";
+    font-family:"Xingkai1_min","Xingkai2_min","Xingkai1","Xingkai2","微软雅黑";
     font-size: 75px;
 }
 
@@ -111,6 +137,12 @@ p
     font-family: "Futura","Comic Sans MS", cursive, sans-serif;
     font-size: 25px;
 }
+
+p.optima
+{
+    font-family: "Optima","Comic Sans MS", cursive, sans-serif;
+}
+
 .content
 {
     padding: 25px;
@@ -122,6 +154,10 @@ p.italic {font-style:italic;}
 /*use xx.center to make the text center */
 .center
 {text-align:center;}
+
+a {
+    font-family: "Optima";
+  }
 
 a:link {color:#2564ea;text-decoration:none;}      /* 未访问链接*/
 a:visited {color:#d55d1d;text-decoration:none;}  /* 已访问链接 */
@@ -148,7 +184,7 @@ a:active {color:#0000FF;text-decoration:underline;}  /* 鼠标点击时 */
     text-align: center;
     padding: 17px 20px; /*高；宽*/
     text-decoration: none;
-    font-family: "Optima";
+    font-family: "Optima","Comic Sans MS", cursive, sans-serif;
     font-size: 22px;
   }
   
