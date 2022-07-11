@@ -143,6 +143,11 @@ p.optima
     font-family: "Optima","Comic Sans MS", cursive, sans-serif;
 }
 
+p.lansong
+{
+    font-family: "AaLanSong_min","AaLanSong", sans-serif,"微软雅黑";
+}
+
 .content
 {
     padding: 25px;
@@ -198,15 +203,61 @@ a:active {color:#0000FF;text-decoration:underline;}  /* 鼠标点击时 */
     color: white;
   }
   
-  .sticky {
+.sticky {
     position: fixed;
     top: 0;
     width: 100%;
   }
   
-  .sticky + .content {
+.sticky + .content {
     padding-top: 60px;
   }
 /* 导航栏设置结束*/
 
+/*侧边栏*/
+ul.sidebar {
+    list-style-type: none;
+    margin-top: 15px;
+    margin-left: 2%;
+    padding: 0;
+    width: 10%;
+    position: fixed;
+    height: 60%;
+    overflow: auto;
+
+}
+
+li a.sidebar {
+    display: block;
+    color: #000;
+    padding: 15px 15px;
+    text-decoration: none;
+    font-family:"Optima","Comic Sans MS", cursive, sans-serif ;
+}
+
+
+
+li a:hover:not(.active).sidebar {
+    background-color: #333;
+    color: white;
+}
+/*侧边栏 结束*/
+
+.red{
+	color: red;
+}
+
+
+@font-face
+{
+    font-family:"icomoon";        
+    src:url("../Type/icomoon.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+/*奖杯*/
+.icon-trophy:before {
+    font-family: "icomoon";
+    content:"\e900";
+  }
 
