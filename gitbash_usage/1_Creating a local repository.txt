@@ -60,3 +60,24 @@ git add {上面搜索到的大文件路径}
 git commit -m "Add large file"
 
 git push origin main
+
+
+清楚所有历史版本
+
+创建并切换到latest_branch分支
+git checkout --orphan latest_branch
+
+添加所有文件
+git add -A
+
+提交更改
+git commit -m "删除历史版本记录，初始化仓库"
+
+删除分支
+git branch -D main
+
+将当前分支重命名
+git branch -m main
+
+强制更新存储库
+git push -f origin main
