@@ -1,0 +1,62 @@
+原网址：
+https://zhuanlan.zhihu.com/p/369486197
+
+
+克隆远程代码
+在github仓库中复制Clone or download的https连接（.git）
+
+先切换到存储目录
+cd [...]
+
+Method1 克隆仓库(在当前目录下自动创建与仓库同名的文件夹，无需init)
+git clone https://github.com/SuperCRISPR/SuperCRISPR.github.io
+
+注：克隆得到的本地仓库自动与github服务器同步，push/pull时使用的仓库名即为origin
+
+Method2 如果非克隆，则先创建文件夹并进入
+mkdir [...]
+cd [...]
+使用
+git init
+将其创建为仓库
+git remote add origin https://github.com/SuperCRISPR/SuperCRISPR.github.io
+关联服务器仓库，之后push/pull时使用的仓库名即为origin
+
+
+进入该目录
+cd SuperCRISPR.github.io
+
+【检查与github连接情况】
+ssh -T git@github.com
+
+远程代码>本地代码
+git pull [仓库] [远程分支]:[本地分支]
+(git pull origin main)
+
+
+查看当前目录下库状态
+git status
+
+添加或更新文件后，本地提交文件或所在目录至库
+git add
+确认提交
+使用git add -u自动提交所有文件
+git commit -m "需要展示的信息"
+
+本地代码>远程代码
+git push [仓库] [本地分支]:[远程分支]
+(git push origin main）
+
+大文件上传：
+找到项目文件下大文件 find ./ -size +100M
+
+执行git lfs track "{上面搜索到的大文件路径}"
+
+执行git add .gitattributes
+
+
+git add {上面搜索到的大文件路径}
+
+git commit -m "Add large file"
+
+git push origin main

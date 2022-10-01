@@ -1,0 +1,41 @@
+/* 导航栏设置 navbar*/ 
+#navbar {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+#navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 17px 20px; /*高；宽*/
+    text-decoration: none;
+    font-family: "Optima","Comic Sans MS", cursive, sans-serif;
+    font-size: 22px;
+  }
+  
+#navbar a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+#navbar a.active {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  
+.sticky + .content {
+    padding-top: 60px;
+  }
+/* 导航栏设置结束*/
+
+.red{
+	color: red;
+}

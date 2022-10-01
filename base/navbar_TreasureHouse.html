@@ -1,0 +1,32 @@
+<!--导航栏-->
+<div id="navbar" style="z-index:20;">
+    <a href="../home/index.html" style="padding: 7px 10px;">
+        <img alt="Brand" src="../../image/lable.png" width="54" height="50" style="padding:2;">
+    </a>
+    <a href="../home/index.html">Home</a>    <!--activated one-->
+    <a href="../aboutme/aboutme.html">About me</a>
+    <a class="active" href="../treasurehouse/treasurehouse.html">Treasure-house</a>
+    <a href="../mylife/mylife.html">Daily Silhouettes</a>
+</div>
+<!--导航栏//-->
+
+<script type="text/javascript">
+// 实现导航栏粘性粘贴功能//
+
+// 当用户滚动页面时，执行 myFunction
+window.onscroll = function() {stickyRoll()};
+// Get the navbar
+var navbar = document.getElementById("navbar");
+// 获取导航栏的偏移位置
+var sticky = navbar.offsetTop;
+// 当到达滚动位置时，将粘性类添加到导航栏。 离开滚动位置时删除 "sticky"
+function stickyRoll() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+
+// 实现导航栏粘性粘贴功能--over//
+</script>

@@ -1,0 +1,65 @@
+<div style="z-index:18 ;">
+    <div style="fill:#333; background-color:#333 ;">
+        <div style="width:50%; margin:30px auto;"> 
+            <div style="margin-left:20%;float: left;height: 80px;"> 
+                <p style="font-size:30px ;color: white; text-align: center;line-height: 80px;">Contact Me</p>
+            </div>
+            <div style="margin-right:20%;float: right;height: 80px;"> 
+                <p style="font-size:15px ;color: white;  text-align: center;line-height: 20px;">
+                    QQ: 2696331468 <br>
+                    WeChat: CHY010309 <br>
+                    E-mail: 2696331468@qq.com <br>
+                    TEL: (+86)15009150609 <br>
+                </p>
+            </div>
+        </div>
+
+        <div style="height:20px;"></div>
+
+        <div style="width:100% ;margin: 0 auto;">
+            <p style="text-align: center; color:rgba(119, 109, 224, 0.986);font-size: 30px;">
+            <span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span>
+            <a href="#" id="backtothetop-fixed" style="color:rgba(119, 109, 224, 0.986);">Back to the Top</a>
+            <span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span>
+            </p>
+        </div>
+
+        <script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+
+        <div style="text-align:center; margin-top:20px;"> <!--liker-->
+            <p style="color:red">Like Me!<button style="text-decoration:none;color: #999999; background-color: #333; border-style: none;"><span class="liker">❤5</span></button></p>
+
+            <script>
+                $(function(){
+                    //点赞
+                    $(".liker").on("click",function(){
+                        // 判断是否已经点赞过
+                        if($(this).hasClass("red")){
+                            return
+                        }
+                        //添加样式 并且数字+1
+                        $(this).addClass("red")
+                        var num=$(this).html().substring(1)
+                        num++
+                        $(this).html("❤"+num)
+                        //ajax更新数据
+                    })
+                })
+            </script>
+
+        </div>
+
+
+        <div style="height:50px;"></div>
+
+        <div>
+            <p style="color:white ; font-size: 10px ;text-align:center">
+                Copyright © Hongyu Chen @ Xi'an Jiaotong University
+            </p>
+        </div>
+
+    </div>
+</div>
+

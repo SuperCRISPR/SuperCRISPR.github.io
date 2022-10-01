@@ -1,0 +1,263 @@
+body
+{
+    background-color: rgba(247, 247, 238, 0.914);
+    margin:0px;
+    padding: 0px;
+}
+#main_box
+{
+    margin-top:15px;
+    margin-bottom:50px;
+    margin-right:5%;
+    margin-left:5%;
+}
+div
+{
+    overflow: hidden;
+}
+
+@font-face
+{
+    font-family:"Xingkai1";        
+    src:url("../Type/Xingkai1.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family:"Xingkai2";        
+    src:url("../Type/Xingkai2.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family:"Futura";        
+    src:url("../Type/Futura.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family:"DearJ";        
+    src:url("../Type/DearJ.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family:"SchoolOut";        
+    src:url("../Type/SchoolOut.otf");       
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family:"Jennifer";        
+    src:url("../Type/Jennifer.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}@font-face
+{
+    font-family:"Jennifer_bold";        
+    src:url("../Type/Jennifer_bold.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}@font-face
+{
+    font-family:"Optima";        
+    src:url("../Type/Optima.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}@font-face
+{
+    font-family:"AaLanSong";        
+    src:url("../Type/AaLanSong.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family:"Xingkai1_min";        
+    src:url("../Type/Xingkai1_min.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}@font-face
+{
+    font-family:"AaLanSong_min";        
+    src:url("../Type/AaLanSong_min.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face
+{
+    font-family:"Xingkai2_min";        
+    src:url("../Type/Xingkai2_min.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*My name*/
+#name_English
+{
+    position:absolute;
+
+    text-align:center;
+    font-family:"DearJ","Futura","cursive","Times New Roman";
+    font-size: 70px;
+}
+
+#name_Chinese
+{
+    position:absolute;
+
+    text-align:center;
+    font-family:"Xingkai1_min","Xingkai2_min","Xingkai1","Xingkai2","微软雅黑";
+    font-size: 75px;
+}
+
+/*header*/
+h1
+{
+    font-size: 50px;
+    font-family:"Jennifer_bold","Jennifer","SchoolOut","Comic Sans MS", cursive, sans-serif;
+    font-style:normal;
+}
+h2
+{
+    font-size: 20px;
+    font-family:"Jennifer_bold","Jennifer","SchoolOut","Comic Sans MS", cursive, sans-serif;
+    font-style:normal;
+}
+
+/*normal text*/
+p
+{
+    text-indent: 0px; /*no indent*/
+    font-family: "Futura","Comic Sans MS", cursive, sans-serif;
+    font-size: 25px;
+}
+
+p.optima
+{
+    font-family: "Optima","Comic Sans MS", cursive, sans-serif;
+}
+
+p.lansong
+{
+    font-family: "AaLanSong_min","AaLanSong", sans-serif,"微软雅黑";
+}
+
+.content
+{
+    padding: 25px;
+}
+
+p.normal {font-style:normal;}
+p.italic {font-style:italic;}
+
+/*use xx.center to make the text center */
+.center
+{text-align:center;}
+
+a {
+    font-family: "Optima";
+  }
+
+a:link {color:#2564ea;text-decoration:none;}      /* 未访问链接*/
+a:visited {color:#d55d1d;text-decoration:none;}  /* 已访问链接 */
+a:hover {color:#FF00FF;text-decoration:underline;}  /* 鼠标移动到链接上 */
+a:active {color:#0000FF;text-decoration:underline;}  /* 鼠标点击时 */
+
+
+#autofull
+{
+    width: 100%;
+    height: 100%;
+    object-fit: fill; /*fill cover contain none*/
+}
+/* 导航栏设置 navbar*/ 
+#navbar {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+#navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 17px 20px; /*高；宽*/
+    text-decoration: none;
+    font-family: "Optima","Comic Sans MS", cursive, sans-serif;
+    font-size: 22px;
+  }
+  
+#navbar a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+#navbar a.active {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  
+.sticky + .content {
+    padding-top: 60px;
+  }
+/* 导航栏设置结束*/
+
+/*侧边栏*/
+ul.sidebar {
+    list-style-type: none;
+    margin-top: 15px;
+    margin-left: 2%;
+    padding: 0;
+    width: 10%;
+    position: fixed;
+    height: 60%;
+    overflow: auto;
+
+}
+
+li a.sidebar {
+    display: block;
+    color: #000;
+    padding: 15px 15px;
+    text-decoration: none;
+    font-family:"Optima","Comic Sans MS", cursive, sans-serif ;
+}
+
+
+
+li a:hover:not(.active).sidebar {
+    background-color: #333;
+    color: white;
+}
+/*侧边栏 结束*/
+
+.red{
+	color: red;
+}
+
+
+@font-face
+{
+    font-family:"icomoon";        
+    src:url("../Type/icomoon.ttf");       
+    font-weight: normal;
+    font-style: normal;
+}
+/*奖杯*/
+.icon-trophy:before {
+    font-family: "icomoon";
+    content:"\e900";
+  }
+

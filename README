@@ -1,0 +1,22 @@
+This repository is mainly used to create a personal website for SuperCRISPR
+
+
+Here is the home page
+Type in
+https://SuperCRISPR.github.io
+to visit homepage.
+Homepage is restored in the root dir as index.html
+
+
+
+To create other pages, add .html files to the repository and the link should be:
+https://SuperCRISPR.github.io/[URL]
+
+For example:
+for the file: 
+/example/create.newpage.html
+
+using:
+https://SuperCRISPR.github.io/example/create.newpage.html
+to visit
+
