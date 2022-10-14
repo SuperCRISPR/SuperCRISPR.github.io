@@ -2,14 +2,14 @@ body
 {
     background-color: rgba(247, 247, 238, 0.914);
     margin:0px;
-    padding: 0px;
+    padding:0px;
 }
 #main_box
 {
     margin-top:15px;
     margin-bottom:50px;
     margin-right:5%;
-    margin-left:5%;
+    margin-left:8%;
 }
 div
 {
