@@ -137,15 +137,22 @@
     <script type="text/javascript" src="../../base/base.js"></script>
     <!--浏览器按照代码在文件中的顺序解析HTML代码，如果JavaScript代码在前面被加载，HTML代码还未加载，JavaScript代码将不起作用。-->
 
-    <footer id="footer"></footer>
+    <footer id="footer" style="z-index: 18;"></footer>
 
     <!--Animation-->
     <div id="Animation1" 
-    style="height: auto; width:95px; z-index:10; position:fixed; left:2%; bottom:10%;"
+    style="height: auto; width:95px; z-index:6; position:fixed; left:2%; bottom:10%;"
     onmouseover="mouseover(this)" 
     onmouseleave="mouseleave(this)"
+    onmousedown="mousedown(this)"
     ></div> 
     <!--鼠标进入与移出时分别调用mouseover与mouseleave函数，传递参数为本身 -->
+    <div id="Animation2" 
+    style="height: auto; width:95px; z-index:5; position:fixed; left:2%; bottom:10%;"
+    ></div> 
+    <div id="Animation3" 
+    style="height: auto; width:95px; z-index:4; position:fixed; left:2%; bottom:10%;"
+    ></div> 
 </body>
 <script src="../../lottie/beethoven/load_active.js"></script>
 </html>
