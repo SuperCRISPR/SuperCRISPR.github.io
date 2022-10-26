@@ -1,0 +1,21 @@
+#查看所有分支
+git branch
+
+#创建分支“temp”
+git branch <temp>
+
+#切换分支“temp”
+git checkout <temp>
+
+#（创建+切换分支）
+git checkout -b <name>
+
+
+#先切换到master分支，再进行合并：
+git checkout <master>
+
+#合并某temp到当前分支（master）：
+git merge <temp>
+
+#删除分支temp
+git branch -d <temp>

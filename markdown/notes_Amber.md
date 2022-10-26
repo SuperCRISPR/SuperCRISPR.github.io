@@ -1623,6 +1623,115 @@ Exploring Chemistry with Electronic Structure Methods
 
 
 
+
+
+# 附录5 其他
+
+## mmpbsa.py中缺少所需原子类型的半径参数
+
+在体系中含有部分原子（如Fe）时，由于程序中原先不含有其原子半径的信息，因此运行时出现报错：
+
+**bad atom type: Fe**
+
+此时就需要人为添加相关信息。在源文件中添加信息后，重新进行编译。
+
+在解压后的Amber目录下，寻找到mdread.F90文件（可能在这个目录中）
+
+```
+$AMBERHOME/AmberTools/scr/sander
+```
+
+在Amber18中，mdread.F90不直接包含编码信息，而是调用mdread1.F90与mdread2.F90.
+
+原子半径参数写于mdread2.F90文件中，故编辑此，向其中添加铁原子半径
+
+```
+if ( gbsa == 1 ) then   ####可以搜索此句从而快速定位到原子半径所处的位置
+......
+......
+
+#############下方内容是需要添加的（内容1）
+else if (atype(1:1) == 'FE' .or. atype(1:1) == 'Fe') then
+        x(l165-1+i) = 0.78d0 + 1.4d0
+        x(l170-1+i) = 0.00000d0
+        x(l175-1+i) = -0.00000d0
+        x(l180-1+i) = -0.00000d0
+        x(l185-1+i) = 0.00000d0
+#############上方内容是需要添加的
+......
+......
+ end if
+     end do ! i=1,natom
+     !
+   else if ( gbsa == 2 ) then ### 或者搜索此句以定位
+......
+......
+#############下方内容是需要添加的（内容2）
+else if (atype(1:1) == 'FE' .or. atype(1:1) == 'Fe') then
+        x(l165-1+i) = 0.78d0 + 1.4d0 
+#############上方内容是需要添加的
+...... 
+......
+```
+
+**建议将添加的原子参数追加在if(gbsa==1)或else if(gbsa==2)内的最后一个原子对应的else if之后，bad atom报错对应的else if前**
+
+如，对于gbsa==1的if函数内的语句，其末尾为：
+
+```
+#省略之前内容，下面展示该函数体末尾内容
+	    else if (atype == 'F') then
+               x(l165-1+i) = 1.47d0 + 1.4d0
+               x(l170-1+i) = 0.68563d0
+               x(l175-1+i) = -0.1868d0
+               x(l180-1+i) = -0.00135573d0
+               x(l185-1+i) = 0.00023743d0
+            #######将内容（1）添加至此
+            else
+               ! write( 0,* ) 'bad atom type: ',atype
+               ! call mexit( 6,1 )
+               x(l165-1+i) = 1.70 + 1.4;
+               x(l170-1+i) = 0.51245;
+               x(l175-1+i) = -0.15966;
+               x(l180-1+i) = -0.00019781;
+               x(l185-1+i) = 0.00016392;
+               write(6,'(a,a)') 'Using carbon SA parms for atom type', atype
+            end if
+         end do  !  i=1,natom
+         !
+      else if ( gbsa == 2 ) then
+```
+
+之后即为gbsa==2的else if内的语句
+
+```
+#省略之前内容，下面展示该函数体末尾内容
+            else if (atomicnumber .eq. 12) then
+               !  Mg radius = 0.99A: ref. 21 in J. Chem. Phys. 1997, 107, 5422
+               !  Mg radius = 1.18A: ref. 30 in J. Chem. Phys. 1997, 107, 5422
+               !  Mg radius = 1.45A: Aqvist 1992
+               x(L165-1+i) = 1.18d0 + 1.4d0
+            #######将内容（2）添加至此
+            else
+               write( 0,* ) 'bad atom type: ',atype
+               FATAL_ERROR
+            end if
+
+            ! dummy LCPO values:
+            x(L170-1+i) = 0.0d0
+            x(L175-1+i) = 0.0d0
+            x(L180-1+i) = 0.0d0
+            x(L185-1+i) = 0.0d0
+            !  write(6,*) i,' ',atype,x(L165-1+i)
+         end do  !  i=1,natom
+
+      end if ! ( gbsa == 1 )
+
+   end if  ! ( igb /= 0 .and. igb /= 10 .and. ipb == 0 )
+```
+
+之后按照安装Amber的步骤，重新编译安装即可！
+
 > <p align="center">感谢杨志伟教授及其课题组成员的支持与帮助！</p>
 
 > <p align="right">created by SuperCRISPR</p>
