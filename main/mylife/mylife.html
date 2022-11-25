@@ -22,24 +22,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--those should be copied (head)-->
 
-
+    <script type="text/javascript" src="popwindow.js"></script>
+    <link href="album.css" rel="stylesheet">
 
 </head>
 <body>
 
         <!--导航栏-->
         <div id="navbar_MyLife"></div>
+        <!--弹出窗口，激活前不可见-->
+        <div id="popupcontent">
+            <div>
+                <p style="margin-left:15px;margin-right:15px;">
+                    Information 
+                    <button type="button" style="float:right" onclick="hidePopup()">
+                    Close
+                    </button>
+                </p>
+                <div id="pop_image">
+                    <img id="pop_image_content"></img>
+                </div>
+                <div id="pop_text">
+                    <p id="pop_text_content">
+                        initial value initial value initial value initial value initial value initial value <br>
+                        initial value initial value <br> initial value initial value <br><br> initial value initial value <br>
+                        initial value initial value <br> initial value initial value <br><br> initial value initial value <br>
+                        initial value initial value <br> initial value initial value <br><br> initial value initial value <br>
+                        initial value initial value <br> initial value initial value <br><br> initial value initial value <br>
+                        initial value initial value <br> initial value initial value <br><br> initial value initial value <br>
+                        initial value initial value <br> initial value initial value <br><br> initial value initial value <br>
+                        initial value initial value <br> initial value initial value <br><br> initial value initial value <br>
+                        initial value initial value <br> initial value initial value <br><br> initial value initial value <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--当弹出页面时，背景覆盖半透明-->
+        <div id="blur_background"></div>
         <!--正文-->
         <div id="main_box">
-            <h1 style="font-size:50px;color: rgba(51, 7, 208, 0.893);">Who am I</h1>
-            <p>The navbar will stick to the top when you reach its scroll position.</p>
-            <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-            <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-            <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-            <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-            <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-            <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-            <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
+            <h1 style="font-size:50px;color: rgba(51, 7, 208, 0.893); " >Who am I</h1>
+            <div id="album_left"> <!--左列-->
+                <div id="picture_div" onclick="showPopup('0_Test')" onmouseover="img_mouseover(this)">
+                    <img id="pictureindiv" src="album/0_Test/0.png"> </img>
+                </div>
+                <div id="picture_div" onclick="showPopup('0_Test')" onmouseover="img_mouseover(this)">
+                    <img id="pictureindiv" src="album/0_Test/0.png"> </img>
+                </div>
+            </div>
+
+            <div id="album_center"><!--中列-->
+                <div id="picture_div" onclick="showPopup('0_Test')" onmouseover="img_mouseover(this)">
+                    <img id="pictureindiv" src="album/0_Test/0.png"> </img>
+                </div>
+                <div id="picture_div" onclick="showPopup('0_Test')" onmouseover="img_mouseover(this)">
+                    <img id="pictureindiv" src="album/0_Test/0.png"> </img>
+                </div>
+            </div>
+
+            <div id="album_right"><!--右列-->
+                <div id="picture_div" onclick="showPopup('0_Test')" onmouseover="img_mouseover(this)">
+                    <img id="pictureindiv" src="album/0_Test/0.png"> </img>
+                </div>
+                <div id="picture_div" onclick="showPopup('0_Test')" onmouseover="img_mouseover(this)">
+                    <img id="pictureindiv" src="album/0_Test/0.png"> </img>
+                </div>
+            </div>
         </div>
         
 
