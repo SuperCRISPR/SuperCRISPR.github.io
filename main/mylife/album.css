@@ -1,4 +1,4 @@
-#picture_div
+#picture_div /*页面照片排版*/
 {
     width:90%;
     height:0;
@@ -8,8 +8,8 @@
     position: relative;
     float: left;
     transform: translate(-50%,0%);
-    margin-top:10px;
-    margin-bottom:10px;
+    margin-top:20px;
+    margin-bottom:40px;
     padding-bottom: calc(9/ 16 * 100%);
 }
 #pictureindiv
@@ -20,6 +20,8 @@
     bottom: 0;
     left: 0;
     height:100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 /*用于设计相册页面的排版。共三列，分别为左中右*/
@@ -84,6 +86,7 @@
 	top: 50%;
 	transform: translate(-50%,-50%);
     z-index: 15;
+    padding-bottom: 20px;
 }
 
 #blur_background
@@ -130,4 +133,14 @@
 #pop_text_content
 {
     font-size: 20px;
+}
+
+#hidden_information
+{
+    font-size: 5px;
+    color:rgb(230, 139, 139);
+    text-align: right;
+    float: right;
+    margin-right: 20px;
+    transform: translate(0px,-8px);
 }

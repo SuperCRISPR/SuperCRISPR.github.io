@@ -33,6 +33,7 @@ function showPopup(id)
     var background = document.getElementById("blur_background");
     var text = document.getElementById("pop_text");
     var img = document.getElementById("pop_image");
+    var hidden=document.getElementById("hidden_information");
 
     /*使容器中image与text容器的高度与父容器相匹配 */
     var popUp_height_num = popUp.offsetHeight; /*格式为number，单位“px” */
@@ -49,6 +50,8 @@ function showPopup(id)
 
     updateImage(image_id);
     updateText(text_id);
+
+    hidden.innerHTML = "image: " + id;
 }
 
 
