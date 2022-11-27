@@ -7,13 +7,21 @@ function img_mouseover(x)
 
 function updateImage(id) /*加载图片 */
 {
-    var img_content=document.getElementById("pop_image_content");
-    img_content.src=id;
+    var img_content=document.getElementById("pop_image");
+    img_content.innerHTML="<img id=" + "\"pop_image_content\"" + " src=\"" + id + "\"  alt=\"./album/Loading.gif\">" + "</img>";
 }
-
+function updateVideo(id) /*加载视频 */
+{
+    var mp4_content=document.getElementById("pop_image");
+    var p = "<video width=\"100%\" height=\"100%\" controls loop>";
+    p = p + "<source src=\"" + id + "\" type=\"video/mp4\"></source>";
+    p = p + "<video> is not supported by your browser.";
+    p = p + "</video>";
+    mp4_content.innerHTML=p;
+}
 function updateText(id) /*加载文本 */
 {
-     var text=document.getElementById("pop_text_content");
+     var text=document.getElementById("pop_text");
      var p=" ";
      $.get(id,function(data) {    
         /*text.innerHTML=data;*/
@@ -21,13 +29,13 @@ function updateText(id) /*加载文本 */
         lines.forEach(function(element) {
             p=p+element+"<br>";
         });
-        text.innerHTML=p;
+        text.innerHTML="<p id=" + "\"pop_text_content\"" + ">" + p + "</p>";
     });
     
 }
 
 /*显示弹窗*/
-function showPopup(id)
+function showPopup(id, IsVideo=false)
 {
     var popUp = document.getElementById("popupcontent");
     var background = document.getElementById("blur_background");
@@ -42,16 +50,37 @@ function showPopup(id)
     text.style.height = text_height_num + "px";
     img.style.height = img_height_num + "px";
 
-    var image_id = "./album/"+id+"/1.png";
-    var text_id = "./album/"+id+"/information.txt";
+    text.innerHTML="<p id=" + "\"pop_text_content\"" + ">" + "Loading ... ... <br><br>" + "</p>"; 
+    text.innerHTML=text.innerHTML + "<p id=" + "\"pop_text_content\"" + ">" +"Maybe I am too lazy to put some introduction here. <br><br> Forgive me..." + "</p>";
+    img.innerHTML="<img id=" + "\"pop_image_content\"" + "src=\"./album/Loading.gif\">" + "</img>";
 
-    popUp.style.visibility = "visible";
-    background.style.visibility = "visible";
+    if (IsVideo==false)
+    {
+        var image_id = "./album/"+id+"/1.png";
+        var text_id = "./album/"+id+"/information.txt";
+    
+        popUp.style.visibility = "visible";
+        background.style.visibility = "visible";
+    
+        updateImage(image_id);
+        updateText(text_id);
+    
+        hidden.innerHTML = "image: " + id;
+    }
+    else
+    {
+        var image_id = "./album/"+id+"/1.mp4";
+        var text_id = "./album/"+id+"/information.txt";
+    
+        popUp.style.visibility = "visible";
+        background.style.visibility = "visible";
+    
+        updateVideo(image_id);
+        updateText(text_id);
+    
+        hidden.innerHTML = "video: " + id;
+    }
 
-    updateImage(image_id);
-    updateText(text_id);
-
-    hidden.innerHTML = "image: " + id;
 }
 
 
