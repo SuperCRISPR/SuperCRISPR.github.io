@@ -48,7 +48,7 @@ git push [仓库] [本地分支]:[远程分支]
 (git push origin main）
 
 #大文件上传：
-找到项目文件下大文件 find ./ -size +100M
+找到项目文件下大文件 find ./ -size +50M
 
 执行git lfs track "{上面搜索到的大文件路径}"
 
