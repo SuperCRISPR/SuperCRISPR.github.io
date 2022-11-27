@@ -47,7 +47,7 @@ git commit -m "需要展示的信息"
 git push [仓库] [本地分支]:[远程分支]
 (git push origin main）
 
-大文件上传：
+#大文件上传：
 找到项目文件下大文件 find ./ -size +100M
 
 执行git lfs track "{上面搜索到的大文件路径}"
@@ -62,7 +62,7 @@ git commit -m "Add large file"
 git push origin main
 
 
-清楚所有历史版本
+#清除所有历史版本
 
 创建并切换到latest_branch分支
 git checkout --orphan latest_branch
