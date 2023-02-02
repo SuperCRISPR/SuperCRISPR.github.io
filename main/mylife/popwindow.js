@@ -1,5 +1,4 @@
 
-
 function img_mouseover(x)
 {
     x.style.cursor='pointer';
@@ -8,8 +7,12 @@ function img_mouseover(x)
 function updateImage(id) /*加载图片 */
 {
     var img_content=document.getElementById("pop_image");
-    img_content.innerHTML="<img id=" + "\"pop_image_content\"" + " src=\"" + id + "\"  alt=\"./album/Loading.gif\">" + "</img>";
+    var p = "<a href=\"" + id + "\" target=\"_blank\">";
+    p = p + "<img id=" + "\"pop_image_content\"" + " src=\"" + id + "\"  alt=\"./album/Loading.gif\">" + "</img>";
+    p = p + "</a>";
+    img_content.innerHTML= p ;
 }
+
 function updateVideo(id) /*加载视频 */
 {
     var mp4_content=document.getElementById("pop_image");
@@ -19,6 +22,7 @@ function updateVideo(id) /*加载视频 */
     p = p + "</video>";
     mp4_content.innerHTML=p;
 }
+
 function updateText(id) /*加载文本 */
 {
      var text=document.getElementById("pop_text");
@@ -92,5 +96,3 @@ function hidePopup()
     popUp.style.visibility = "hidden";
     background.style.visibility = "hidden";
 }
-
-
