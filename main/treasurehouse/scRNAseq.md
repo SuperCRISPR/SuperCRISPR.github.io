@@ -480,7 +480,7 @@ UMAP聚类+注释
 
 ```R
 rm(list=ls())#设置工作目录
-setwd("U:/R/R_advanced/SingleCellSeq/demo")
+setwd("U:/SingleCellSeq/demo")
 load("R_data/mergedata_UMAP_TSNE_seurat.RData")
 
 
