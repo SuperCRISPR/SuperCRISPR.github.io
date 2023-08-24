@@ -81,3 +81,7 @@ git branch -m main
 
 强制更新存储库
 git push -f origin main
+
+#取消全局代理：
+git config --global --unset http.proxy
+git config --global --unset https.proxy
