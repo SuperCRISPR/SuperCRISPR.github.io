@@ -14,9 +14,4 @@ https://SuperCRISPR.github.io/[URL]
 
 For example:
 for the file: 
-/example/create.newpage.html
-
-using:
-https://SuperCRISPR.github.io/example/create.newpage.html
-to visit
-
+[URL]=/main/home/index.html
