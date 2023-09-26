@@ -23,7 +23,7 @@
 
         // 发起一个 XMLHttpRequest 来获取目录下的文件列表
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', directoryPath + '/notes/file.list', true);
+        xhr.open('GET', directoryPath + '/other_useful_things/file.list', true);
 
         xhr.onload = function () {
             if (xhr.status === 200) {
@@ -34,13 +34,32 @@
 
                 // 遍历文件列表并创建超链接
                 fileList.forEach(function (fileName) {
-                    if (fileName.trim() !== '' && fileName.indexOf("createlist.bat")==-1 && fileName.indexOf("file.list")==-1) {
-                        var li = document.createElement('li');
-                        var a = document.createElement('a');
-                        a.href = 'notes/' + fileName;
-                        a.textContent = fileName;
-                        li.appendChild(a);
-                        ul.appendChild(li);
+                    if (fileName.trim() !== '' && fileName.indexOf("createlist.bat")==-1 && fileName.indexOf("file.list")==-1 && fileName.indexOf(".hide")==-1) {
+                        if (fileName.substring(0,6).indexOf("Other/")==-1){  //将Other文件夹放在最末尾
+                            var li = document.createElement('li');
+                            var a = document.createElement('a');
+                            a.href = 'other_useful_things/' + fileName;
+                            a.textContent = fileName;
+                            a.target = "_blank"
+                            li.appendChild(a);
+                            ul.appendChild(li);
+                        }
+                        else{  //将Other文件夹放在最末尾
+                            var p = document.createElement('p');
+                            var div = document.createElement('div')
+                            var li = document.createElement('li');
+                            var a = document.createElement('a');
+                            p.style = "font-size:20px;";
+                            div.style = "margin-bottom:50px;margin-top:50px;height:10px";
+                            p.textContent = "And other stuffs";
+                            a.href = 'other_useful_things/' + fileName;
+                            a.textContent = fileName;
+                            a.target = "_blank"
+                            ul.appendChild(div);
+                            ul.appendChild(p);
+                            li.appendChild(a);
+                            ul.appendChild(li);
+                        }
                     }
                 });
             }
