@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Other Notes</title>
+    <meta name="author" content="陈泓宇 Hongyu Chen">
+    <link rel="shortcut icon" href="image/icon.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+    <h1>文件列表</h1>
+    <ul id="fileList">
+        <!-- 这里将用 JavaScript 动态生成文件链接 -->
+    </ul>
+
+    <script>
+        // 获取当前页面的 URL
+        var currentURL = window.location.href;
+
+        // 截取 URL，获取目录路径
+        var directoryPath = currentURL.substring(0, currentURL.lastIndexOf('/'));
+
+        // 发起一个 XMLHttpRequest 来获取目录下的文件列表
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', directoryPath + '/notes/file.list', true);
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var fileList = xhr.responseText.split('\n');
+
+                // 获取 ul 元素
+                var ul = document.getElementById('fileList');
+
+                // 遍历文件列表并创建超链接
+                fileList.forEach(function (fileName) {
+                    if (fileName.trim() !== '' && fileName.indexOf("createlist.bat")==-1 && fileName.indexOf("file.list")==-1) {
+                        var li = document.createElement('li');
+                        var a = document.createElement('a');
+                        a.href = 'notes/' + fileName;
+                        a.textContent = fileName;
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    }
+                });
+            }
+        };
+
+        xhr.send();
+    </script>
+</body>
+</html>
+    </script>
+</body>
+</html>
