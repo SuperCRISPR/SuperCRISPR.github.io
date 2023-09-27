@@ -28,40 +28,87 @@
         xhr.onload = function () {
             if (xhr.status === 200) {
                 var fileList = xhr.responseText.split('\n');
-
+                fileList.sort();
                 // 获取 ul 元素
                 var ul = document.getElementById('fileList');
-
+                var catalogue = "  ";
+                var cata_fileList= [] ;
+                var nocata_fileList = [] ;
+                var Other_fileList = [] ;
                 // 遍历文件列表并创建超链接
-                fileList.forEach(function (fileName) {
+                fileList.forEach(function (fileName) 
+                {
                     if (fileName.trim() !== '' && fileName.indexOf("createlist.bat")==-1 && fileName.indexOf("file.list")==-1 && fileName.indexOf(".hide")==-1) {
-                        if (fileName.substring(0,6).indexOf("Other/")==-1){  //将Other文件夹放在最末尾
-                            var li = document.createElement('li');
-                            var a = document.createElement('a');
-                            a.href = 'other_useful_things/' + fileName;
-                            a.textContent = fileName;
-                            a.target = "_blank"
-                            li.appendChild(a);
-                            ul.appendChild(li);
+                        if (fileName.substring(0,6).indexOf("Other/")==-1 && fileName.split('/').length != 1)  //有目录归属的文件
+                        {  
+                            cata_fileList.push(fileName);
+                        }
+                        else if (fileName.substring(0,6).indexOf("Other/")==-1 ) //无目录归属
+                        {
+                            nocata_fileList.push(fileName);
                         }
                         else{  //将Other文件夹放在最末尾
-                            var p = document.createElement('p');
-                            var div = document.createElement('div')
-                            var li = document.createElement('li');
-                            var a = document.createElement('a');
-                            p.style = "font-size:20px;";
-                            div.style = "margin-bottom:50px;margin-top:50px;height:10px";
-                            p.textContent = "And other stuffs";
-                            a.href = 'other_useful_things/' + fileName;
-                            a.textContent = fileName;
-                            a.target = "_blank"
-                            ul.appendChild(div);
-                            ul.appendChild(p);
-                            li.appendChild(a);
-                            ul.appendChild(li);
+                            Other_fileList.push(fileName);
                         }
                     }
                 });
+
+                cata_fileList.forEach(function (fileName){
+                    if (catalogue != fileName.split('/')[0]){ //如果当前文件catalog与上一文件不同，则新建一个catalog
+                        catalogue = fileName.split('/')[0];
+                        var p = document.createElement('p');
+                        p.style = "font-size:20px;";
+                        p.textContent = catalogue;
+                        ul.appendChild(p);
+                    }
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    a.href = 'other_useful_things/' + fileName;
+                    a.textContent = fileName;
+                    a.target = "_blank";
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                })
+
+                var div_temp = document.createElement('div');
+                var p_temp = document.createElement('p');
+                p_temp.textContent = "---------------------------------";
+                p_temp.style = "font-size:20px;"
+                div_temp.style = "margin-bottom:20px;margin-top:20px;height:10px";
+                ul.appendChild(div_temp);
+                ul.appendChild(p_temp);
+
+                nocata_fileList.forEach(function (fileName){
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    a.href = 'other_useful_things/' + fileName;
+                    a.textContent = fileName;
+                    a.target = "_blank";
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                })
+
+                var p_temp = document.createElement('p');
+                p_temp.textContent = "---------------------------------";
+                p_temp.style = "font-size:20px;"
+                ul.appendChild(p_temp);
+
+                Other_fileList.forEach(function (fileName){
+                    var p = document.createElement('p');
+                    var div = document.createElement('div');
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    p.style = "font-size:20px;";
+                    div.style = "margin-bottom:50px;margin-top:50px;height:10px";
+                    p.textContent = "And other stuffs";
+                    a.href = 'other_useful_things/' + fileName;
+                    a.textContent = fileName;
+                    a.target = "_blank";
+                    ul.appendChild(div);
+                    ul.appendChild(p);
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                })
             }
         };
 
