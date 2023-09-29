@@ -93,19 +93,22 @@
                 p_temp.style = "font-size:20px;"
                 ul.appendChild(p_temp);
 
+                var p = document.createElement('p');
+                var div = document.createElement('div');
+                p.style = "font-size:20px;";
+                div.style = "margin-bottom:50px;margin-top:50px;height:10px";
+                p.textContent = "And other stuffs";
+                ul.appendChild(div);
+                ul.appendChild(p);
+
                 Other_fileList.forEach(function (fileName){
-                    var p = document.createElement('p');
-                    var div = document.createElement('div');
+
                     var li = document.createElement('li');
                     var a = document.createElement('a');
-                    p.style = "font-size:20px;";
-                    div.style = "margin-bottom:50px;margin-top:50px;height:10px";
-                    p.textContent = "And other stuffs";
+
                     a.href = 'other_useful_things/' + fileName;
                     a.textContent = fileName;
                     a.target = "_blank";
-                    ul.appendChild(div);
-                    ul.appendChild(p);
                     li.appendChild(a);
                     ul.appendChild(li);
                 })
