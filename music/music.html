@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="player">
+            <div id="composer" class="composer"></div>
+            <div id="title" class="title"></div>
+            <div id="details" class="details"></div>
+            <div class="controls">
+                <button id="prev-button">Previous</button>
+                <button id="play-pause-button">Play</button>
+                <button id="next-button">Next</button>
+            </div>
+            <div class="volume-control">
+                <label for="volume-slider">Volume</label>
+                <input type="range" id="volume-slider" min="0" max="100" value="50">
+            </div>
+            <div class="sort-controls">
+                <button id="sort-random">Random Order</button>
+                <button id="sort-year">Sort by Year</button>
+            </div>
+        </div>
+        <div class="playlist">
+            <ul id="song-list"></ul>
+        </div>
+    </div>
+</body>
+</html>

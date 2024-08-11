@@ -1,0 +1,199 @@
+{
+    "./music/Beethoven_4.Klavierkonzert.mp3": {
+        "Filepath": "./music/Beethoven_4.Klavierkonzert.mp3",
+        "Title": "Das 4. Klavierkonzert G-Dur (3. Satz) 第四钢琴协奏曲（第三乐章）",
+        "Subtitle": "",
+        "Composer": "Ludwig van Beethoven 贝多芬",
+        "Number": "Op. 58",
+        "Time": "1806",
+        "Form": "Concerto",
+        "Instrument": "Piano",
+        "Performance": {
+            "Conductor": "Daniel Barenboim",
+            "Orchestra": "Staatskapelle Berlin",
+            "": "Daniel Barenboim",
+            "Version": "2007, Klavier-Festival Ruhr"
+        }
+    },
+    "./music/Beethoven_5.Klavierkonzert.mp3": {
+        "Filepath": "./music/Beethoven_5.Klavierkonzert.mp3",
+        "Title": "Das 5. Klavierkonzert Es-Dur (2. Satz) 第五钢琴协奏曲（第二乐章）",
+        "Subtitle": "\"Emperor Concerto\" ”皇帝“",
+        "Composer": "Ludwig van Beethoven 贝多芬",
+        "Number": "Op. 73",
+        "Time": "1809",
+        "Form": "Concerto",
+        "Instrument": "Piano",
+        "Performance": {
+            "Conductor": "Daniel Barenboim",
+            "Orchestra": "Staatskapelle Berlin",
+            "": "Daniel Barenboim",
+            "Version": "2007, Klavier-Festival Ruhr"
+        }
+    },
+    "./music/Beethoven_Symphony_6_1.mp3": {
+        "Filepath": "Beethoven_Symphony_6_1.mp3",
+        "Title": "Die 6. Sinfonie F-Dur (1. Satz) 第六交响曲（第一乐章）",
+        "Subtitle": "„Pastorale“ “田园”: „Erwachen heiterer Empfindungen bei der Ankunft auf dem Lande“",
+        "Composer": "Ludwig van Beethoven 贝多芬",
+        "Number": "Op. 68",
+        "Time": "1808",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Gustavo Dudamel",
+            "Orchestra": "",
+            "Version": ""
+        }
+    },
+    "./music/Beethoven_Sym_7_2.mp3": {
+        "Filepath": "./music/Beethoven_Sym_7_2.mp3",
+        "Title": "Die 7. Sinfonie A-Dur (2. Satz) 第七交响曲（第二乐章）",
+        "Subtitle": "",
+        "Composer": "Ludwig van Beethoven 贝多芬",
+        "Number": "Op. 92",
+        "Time": "1812",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Herbert von Karajan",
+            "Orchestra": "Berliner Philharmoniker",
+            "Version": "1971"
+        }
+    },
+    "./music/Bolero.mp3": {
+        "Filepath": "./music/Bolero.mp3",
+        "Title": "Le Boléro 《波莱罗舞曲》",
+        "Subtitle": "",
+        "Composer": "Joseph Maurice Ravel 拉威尔",
+        "Number": "M. 81",
+        "Time": "1928",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Herbert von Karajan",
+            "Orchestra": "Berliner Philharmoniker",
+            "Version": ""
+        }
+    },
+    "./music/Chopin_Ballade_1.mp3": {
+        "Filepath": "./music/Chopin_Ballade_1.mp3",
+        "Title": "Ballade no 1 en sol mineur 《第一叙事曲》",
+        "Subtitle": "",
+        "Composer": "Frédéric Chopin 肖邦",
+        "Number": "Op. 23",
+        "Time": "1836",
+        "Form": "Solo",
+        "Instrument": "Piano",
+        "Performance": {
+            "": "Krystian Zimerman",
+            "Version": "1987"
+        }
+    },
+    "./music/Chopin_Concerto_1.mp3": {
+        "Filepath": "./music/Chopin_Concerto_1.mp3",
+        "Title": "Le Concerto pour piano no 1 en mi mineur (2e mouvement) 第一钢琴协奏曲（第二乐章）",
+        "Subtitle": "",
+        "Composer": "Frédéric Chopin 肖邦",
+        "Number": "Op. 11",
+        "Time": "1830",
+        "Form": "Concerto",
+        "Instrument": "Piano",
+        "Performance": {
+            "Conductor": "Krystian Zimerman",
+            "Orchestra": "Polish Festival Orchestra",
+            "": "Polish Festival Orchestra",
+            "Version": ""
+        }
+    },
+    "./music/Chopin_Nocturne_No_20.mp3": {
+        "Filepath": "./music/Chopin_Nocturne_No_20.mp3",
+        "Title": "Nocturne no 20 en do dièse mineur 《夜曲》第20号",
+        "Subtitle": "",
+        "Composer": "Frédéric Chopin 肖邦",
+        "Number": "Op. posth.",
+        "Time": "1830",
+        "Form": "Solo",
+        "Instrument": "Piano",
+        "Performance": {
+            "": "Daniel Barenboim",
+            "Version": ""
+        }
+    },
+    "./music/Die_Fledermaus_Overture.mp3": {
+        "Filepath": "./music/Die_Fledermaus_Overture.mp3",
+        "Title": "Die Fledermaus - Ouvertüre 《蝙蝠》序曲",
+        "Subtitle": "",
+        "Composer": "Johann Strauß 约翰·施特劳斯",
+        "Number": "",
+        "Time": "1874",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Herbert von Karajan",
+            "Orchestra": "Wiener Philharmoniker",
+            "Version": "1987"
+        }
+    },
+    "./music/Die_Moldau.mp3": {
+        "Filepath": "./music/Die_Moldau.mp3",
+        "Title": "Má vlast: Vltava 《我的祖国》：《伏尔塔瓦河》",
+        "Subtitle": "",
+        "Composer": "Bedřich Smetana 斯美塔那",
+        "Number": "",
+        "Time": "1874",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Herbert von Karajan",
+            "Orchestra": "Berliner Philharmoniker",
+            "Version": "1985"
+        }
+    },
+    "./music/Mozart_21.Klavierkonzert.mp3": {
+        "Filepath": "./music/Mozart_21.Klavierkonzert.mp3",
+        "Title": "Das 21. Klavierkonzert C-Dur (2. Satz) 第二十一钢琴协奏曲（第二乐章）",
+        "Subtitle": "",
+        "Composer": "Wolfgang Amadeus Mozart 莫扎特",
+        "Number": "K. 467",
+        "Time": "1785",
+        "Form": "Concerto",
+        "Instrument": "Piano",
+        "Performance": {
+            "Conductor": "Jeffrey Tate",
+            "Orchestra": "English Chamber Orchestra",
+            "": "Mitsuko Uchida",
+            "Version": ""
+        }
+    },
+    "./music/Mozart_40_Sinfornie.mp3": {
+        "Filepath": "./music/Mozart_40_Sinfornie.mp3",
+        "Title": "Die 40. Sinfonie g-Moll (1. Satz) 第四十号交响曲（第一乐章）",
+        "Subtitle": "",
+        "Composer": "Wolfgang Amadeus Mozart 莫扎特",
+        "Number": "K. 550",
+        "Time": "1788",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Karl Böhm",
+            "Orchestra": "Wiener Philharmoniker",
+            "Version": "1972"
+        }
+    },
+    "./music/préludeà_l'après_midi_d'un_faune.mp3": {
+        "Filepath": "./music/préludeà_l'après_midi_d'un_faune.mp3",
+        "Title": "Prélude à l'après-midi d'un faune 《牧神午后》序曲",
+        "Subtitle": "",
+        "Composer": "Achille-Claude Debussy 德彪西",
+        "Number": "L. 86",
+        "Time": "1894",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Herbert von Karajan",
+            "Orchestra": "Berliner Philharmoniker",
+            "Version": "1980"
+        }
+    }
+}
