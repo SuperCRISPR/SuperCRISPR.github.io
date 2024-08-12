@@ -46,6 +46,21 @@
             "Version": ""
         }
     },
+    "./music/Beethoven_Sym_3_4.mp3": {
+        "Filepath": "./music/Beethoven_Sym_3_4.mp3",
+        "Title": "Die 3. Sinfonie Es-Dur (4. Satz) 第三交响曲（第四乐章）",
+        "Subtitle": "\"Eroica\" \"英雄\"",
+        "Composer": "Ludwig van Beethoven 贝多芬",
+        "Number": "Op. 55",
+        "Time": "1804",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Herbert von Karajan",
+            "Orchestra": "Berliner Philharmoniker",
+            "Version": "1971"
+        }
+    },
     "./music/Beethoven_Sym_7_2.mp3": {
         "Filepath": "./music/Beethoven_Sym_7_2.mp3",
         "Title": "Die 7. Sinfonie A-Dur (2. Satz) 第七交响曲（第二乐章）",
@@ -165,6 +180,21 @@
             "Version": "1985"
         }
     },
+    "./music/Fontaine.mp3": {
+        "Filepath": "./music/Fontaine.mp3",
+        "Title": "Fontaine 枫丹 & Rondeau des fleurs et des rapières 花与剑的轮舞",
+        "Subtitle": "Genshen-OST",
+        "Composer": "HOYO-MiX",
+        "Number": "",
+        "Time": "2023",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Robert Ziegler",
+            "Orchestra": "London Symphony Orchestra",
+            "Version": ""
+        }
+    },
     "./music/Mozart_21.Klavierkonzert.mp3": {
         "Filepath": "./music/Mozart_21.Klavierkonzert.mp3",
         "Title": "Das 21. Klavierkonzert C-Dur (2. Satz) 第二十一钢琴协奏曲（第二乐章）",
@@ -194,6 +224,22 @@
             "Conductor": "Karl Böhm",
             "Orchestra": "Wiener Philharmoniker",
             "Version": "1972"
+        }
+    },
+    "./music/Mozart_Klarinette_Konzert_A_Dur.mp3": {
+        "Filepath": "./music/Mozart_Klarinette_Konzert_A_Dur.mp3",
+        "Title": "Konzert für Klarinette und Orchester A-Dur A大调单簧管协奏曲",
+        "Subtitle": "",
+        "Composer": "Wolfgang Amadeus Mozart 莫扎特",
+        "Number": "K. 662",
+        "Time": "1791",
+        "Form": "Concerto",
+        "Instrument": "Clarinet",
+        "Performance": {
+            "Conductor": "Leonard Bernstein",
+            "Orchestra": "Wiener Philharmoniker",
+            "": "Peter Schmidl",
+            "Version": "1987"
         }
     },
     "./music/préludeà_l'après_midi_d'un_faune.mp3": {
@@ -253,6 +299,21 @@
         "Performance": {
             "Conductor": "",
             "Orchestra": "Angel City Chorale",
+            "Version": ""
+        }
+    },
+    "./music/Swirls_of_Shamshir.mp3": {
+        "Filepath": "./music/Swirls_of_Shamshir.mp3",
+        "Title": "Sumeru 须弥 & Swirls of Shamshir 狮尾之舞",
+        "Subtitle": "Genshen-OST",
+        "Composer": "陈致逸 Yu-Peng Chen (HOYO-MiX)",
+        "Number": "",
+        "Time": "",
+        "Form": "Symphony",
+        "Instrument": "",
+        "Performance": {
+            "Conductor": "Robert Ziegler",
+            "Orchestra": "London Symphony Orchestra",
             "Version": ""
         }
     }
