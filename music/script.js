@@ -29,8 +29,9 @@ function loadSong(index) {
     const song = musicList[index];
     audio.src = song.filepath;
     document.getElementById('composer').textContent = song.composer;
-    document.getElementById('title').textContent = `${song.title} ${song.subtitle}`;
-    document.getElementById('details').textContent = `${song.number}, ${song.time}`;
+    document.getElementById('title').textContent = song.title;
+    document.getElementById('subtitle').textContent = song.subtitle;
+    document.getElementById('details').textContent = song.number + ' | ' + song.time;
 }
 
 // 播放歌曲
@@ -94,7 +95,7 @@ function renderSongList() {
     musicList.forEach((song, index) => {
         const item = document.createElement("li");
         item.className = "song-item";
-        item.innerHTML = `<div>${song.composer}</div><div>${song.title}</div>`;
+        item.innerHTML = `<div>${song.composer}</div><div><b>${song.title}</b></div><div>${song.subtitle}</div>`;
         item.addEventListener("click", () => {
             currentIndex = index;
             loadSong(currentIndex);
