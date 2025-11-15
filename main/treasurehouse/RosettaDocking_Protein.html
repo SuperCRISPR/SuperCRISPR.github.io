@@ -1,0 +1,2362 @@
+<!doctype html>
+<html style='font-size:17px !important'>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../load.js"></script>
+    <!--for bootstrap-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../base/base.js"></script>
+    <!-- 引入 Bootstrap -->
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--for bootstrap-->
+    <link href="../../base/nav.css" rel="stylesheet">
+    <meta charset="UTF-8" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--those should be copied (head)-->
+<meta name="author" content="陈泓宇 Hongyu Chen">
+<meta name="ROBOTS" content="all"> <!--所有内容可被检索-->
+<title>Protein Docking by Rosetta</title>
+<style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; --title-bar-height:20px; }
+.mac-os-11 { --title-bar-height:28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+thead, tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+svg { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; padding-bottom: 0px !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.reversefootnote { font-family: ui-monospace, sans-serif; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.6; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex:2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+mjx-container { break-inside: avoid; }
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background: inherit; }
+.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); background: inherit; white-space: nowrap; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background: inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background: inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; outline: 0px; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: auto hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 10px; z-index: 3; overflow-y: hidden; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: 0px 0px !important; border: none !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-radius: 0px; border-width: 0px; background: 0px 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; overflow-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; }
+.CodeMirror-wrap pre { overflow-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; inset: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background: rgba(255, 255, 0, 0.4); }
+span.cm-underlined { text-decoration: underline; }
+span.cm-strikethrough { text-decoration: line-through; }
+.cm-tw-syntaxerror { color: rgb(255, 255, 255); background-color: rgb(153, 0, 0); }
+.cm-tw-deleted { text-decoration: line-through; }
+.cm-tw-header5 { font-weight: 700; }
+.cm-tw-listitem:first-child { padding-left: 10px; }
+.cm-tw-box { border-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-color: inherit; border-top-width: 0px !important; }
+.cm-tw-underline { text-decoration: underline; }
+@media print {
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+:root {
+  /*dracula official spec colors */
+  --dracula-background: rgb(40, 42, 54);
+  --dracula-current-line: rgb(68, 71, 90);
+  --dracula-foreground: rgb(248, 248, 242);
+  --dracula-comment: rgb(98, 114, 164);
+  --dracula-cyan: rgb(139, 233, 253);
+  --dracula-green: rgb(80, 250, 123);
+  --dracula-orange: rgb(255, 184, 108);
+  --dracula-pink: rgb(255, 121, 198);
+  --dracula-purple: rgb(189, 147, 249);
+  --dracula-red: rgb(255, 85, 85);
+  --dracula-yellow: rgb(241, 250, 140);
+
+  /* dracula custom colors for typora */
+  --dracula-foreground-fade: rgba(248, 248, 242, 0.5);
+  --dracula-background-dark: rgb(32, 34, 39);
+
+  /* dark color for background*/
+  /* default color */
+  --bg-color1: var(--dracula-background);
+  /* for most panel, context, header, etc */
+  --bg-color2: var(--dracula-background-dark);
+  /* for toc and table edit panel */
+  --bg-color3: var(--dracula-background-dark);
+  /* for tips */
+  --bg-color4: var(--dracula-current-line);
+  
+  /* for blockquote, codeblock, input, etc */
+  --bg-color5: var(--dracula-background-dark);
+  /* light color for text and icon*/
+  /* default color */
+  --text-color1: var(--dracula-foreground);
+  /* for text on panel */
+  --text-color2: var(--dracula-foreground);
+  /* for checkbox and radio */
+  --text-color3: var(--dracula-current-line);
+  
+  /* for tips */
+  --text-color4: var(--dracula-foreground);
+  /* for focus mode */
+  --text-color5: var(--dracula-foreground-fade);
+  /* link color */
+  --link-color: var(--dracula-cyan);
+  /* table color */
+  --table-border-color: var(--dracula-foreground);
+  --table-thead-color: var(--dracula-current-line);
+  --table-bg-color: var(--dracula-background);
+  --table-bg-darker-color: var(--dracula-background-dark);
+  /* hover color */
+  /* default hover background color */
+  --hover-bg-color1: var(--dracula-current-line);
+  /* for input item */
+  --hover-bg-color2: var(--dracula-current-line);
+  /* for button on toc and table edit panel */
+  --hover-bg-color3: var(--dracula-current-line);
+  /* default hover text color */
+  --hover-text-color: var(--dracula-pink);
+  /* active color */
+  --active-color: var(--hover-bg-color1);
+  /* input color */
+  --input-color: var(--dracula-current-line);
+  /* menu divider color */
+  --menu-divider-color: var(--dracula-foreground);
+  /* scrollbar color */
+  --scrollbar-thumb-color: var(--menu-divider-color);
+  --scrollbar-track-color: var(--dracula-background);
+  /* theme select color */
+  --theme-select-color: var(--dracula-current-line);
+  --button-color: var(--dracula-comment);
+  --select-color: var(--dracula-background);
+  /* focus color */
+  --focus-color: var(--dracula-cyan);
+  --focus-ring-color: var(--focus-color);
+  /* codeblock color */
+  --code-red-color: var(--dracula-pink);
+  --code-yellow-color: var(--dracula-yellow);
+  --code-cyan-color: var(--dracula-cyan);
+  --code-blue-color: var(--dracula-cyan);
+  --code-purple-color: var(--dracula-purple);
+  --code-orange-color: var(--dracula-yellow);
+  --code-green-color: var(--dracula-green);
+  --code-grey-color: var(--dracula-comment);
+
+  --code-select-bg-color: var(--dracula-comment);
+  --code-cursor-color: var(--dracula-current-line);
+  /* implicit selection text bg color */
+  --select-text-bg-color: var(--dracula-comment);
+  /* implicit button color */
+  --primary-color: var(--button-color);
+  --primary-btn-border-color: transparent;
+  --primary-btn-text-color: var(--text-color2);
+  /* implicit sidebar color */
+  --side-bar-bg-color: var(--bg-color1);
+  --control-text-color: var(--text-color2);
+  /* implicit text color */
+  --text-color: var(--text-color1);
+  /* implicit background color for setting menu */
+  --bg-color: var(--bg-color1);
+  /* implicit hover color */
+  --item-hover-bg-color: var(--hover-bg-color1);
+  --item-hover-text-color: var(--hover-text-color);
+  /* implicit active color */
+  --active-file-bg-color: var(--hover-bg-color);
+  /* implicit mathjax edit panel background color */
+  --rawblock-edit-panel-bd: var(--bg-color5);
+  /* implicit focus mode color */
+  --blur-text-color: var(--text-color5);
+  /* implicit search result select color */
+  --search-select-bg-color: var(--select-text-bg-color);
+  --search-select-bg-color: var(--dracula-comment);
+
+  --control-text-hover-color: var(--dracula-current-line);
+  /* implicit active file color in sidebar file menu tree view */
+  --active-file-text-color: var(--text-color1);
+  --active-file-border-color: var(--dracula-pink);
+
+  --node-border: var(--menu-divider-color);
+  --node-fill: var(--bg-color2);
+
+  --monospace: Menlo, Monaco, 'Courier New', monospace;
+}
+
+/* font */
+/* basic style */
+html {
+  font-size: 18px;
+}
+
+body {
+  font-family: "Arvo", "Times New Roman", "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--text-color1);
+  background: var(--bg-color1);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--dracula-cyan);
+}
+
+a:hover {
+  color: var(--dracula-pink);
+}
+
+/* text selection background color */
+.in-text-selection {
+  background-color: var(--dracula-current-line);
+}
+
+/* link */
+#write a:not([role="menuitem"]) {
+  color: var(--link-color) !important;
+}
+
+#write a:not([role="menuitem"]):hover {
+  color: var(--hover-text-color) !important;
+}
+
+/* h1-h6 */
+#write h1,
+#write h2,
+#write h3,
+#write h4,
+#write h5,
+#write h6 {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+  line-height: 1em;
+  padding-top: 0.3em;
+}
+
+#write h1 {
+  font-size: 2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--text-color3);
+
+}
+
+#write h2 {
+  font-size: 1.5em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--text-color3);
+}
+
+#write h3 {
+  font-size: 1.25em;
+}
+
+#write h4 {
+  font-size: 1em;
+}
+
+#write h5 {
+  font-size: .875em;
+}
+
+#write h6 {
+  font-size: .85em;
+}
+
+/* horizontal divider */
+hr {
+  height: 1px;
+  background-color: var(--text-color5);
+  border: 0px;
+}
+
+/* list */
+ul,
+ol {
+  padding-left: 30px;
+}
+
+/* blockquote */
+blockquote {
+  border-left: 4px solid var(--text-color1);
+  padding: 4px 15px;
+  color: var(--text-color1);
+  background-color: var(--bg-color5);
+}
+
+blockquote blockquote {
+  padding-right: 0em;
+}
+
+table thead tr {
+  background-color: var(--table-thead-color);
+}
+
+table tr th {
+  font-weight: bold;
+  border-left: 1px solid var(--table-border-color);
+  border-right: 1px solid var(--table-border-color);
+  text-align: left;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+table tbody tr {
+  border-top: 1px solid var(--table-border-color);
+  margin: 0;
+  padding: 0;
+}
+
+table tbody tr:nth-child(2n) {
+  background-color: var(--table-bg-darker-color);
+}
+
+table tbody tr:nth-child(2n + 1) {
+  background-color: var(--table-bg-color);
+}
+
+table tr td {
+  border-left: 1px solid var(--table-border-color);
+  border-right: 1px solid var(--table-border-color);
+  text-align: left;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+table tr th:first-child,
+table tr td:first-child {
+  border-left-width: 0px;
+}
+
+table tr th:last-child,
+table tr td:last-child {
+  border-right-width: 0px;
+}
+
+/* table edit panel */
+.ty-table-edit {
+  background-color: var(--bg-color3);
+  border: 0px;
+  border-radius: 6px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  margin-top: -29px !important;
+}
+
+/* button on table edit panel */
+.ty-table-edit button {
+  background-color: transparent;
+  color: var(--text-color2);
+  border: 0px;
+  margin-left: 0px !important;
+}
+
+/* button hover on table edit panel */
+.ty-table-edit button:hover {
+  background-color: var(--hover-bg-color3);
+  color: var(--hover-text-color);
+}
+
+/* adjusting table panel */
+.popover {
+  background-color: var(--bg-color2);
+}
+
+/* arrow of adjusting table panel */
+.popover.bottom>.arrow:after {
+  border-bottom-color: var(--bg-color2);
+}
+
+/* divider in adjust table panel */
+.md-grid-board-wrap .popover-title {
+  border-top-color: var(--menu-divider-color);
+}
+
+/* grid size */
+.md-grid-board a {
+  width: 15px;
+  height: 15px;
+}
+
+/* existing thread grid */
+.md-grid-board tr[row="1"] .md-grid-ext {
+  background-color: var(--dracula-current-line);
+}
+
+/* not existing thread grid */
+.md-grid-board tr[row="1"] {
+  background-color: var(--dracula-current-line);
+}
+
+/* existing grid */
+.md-grid-board .md-grid-ext {
+  background-color: var(--dracula-current-line);
+}
+
+/* selected thread grid */
+.md-grid-board tr[row="1"] a.md-active,
+.md-grid-board tr[row="1"] a:hover {
+  background-color: var(--dracula-current-line);
+}
+
+/* selected grid */
+.md-grid-board a.md-active,
+.md-grid-board a:hover {
+  border-color: var(--menu-divider-color);
+  background-color: var(--dracula-current-line);
+}
+
+/* task */
+.md-task-list-item>input {
+  margin-left: -1.3em;
+}
+
+/* footnote */
+sup.md-footnote {
+  color: var(--text-color1);
+  background-color: var(--bg-color2);
+}
+
+/* mathjax */
+.md-inline-math script {
+  color: var(--text-color1);
+}
+
+.on-focus-mode #write svg {
+  opacity: 1;
+}
+
+.md-rawblock>.md-rawblock-container {
+  transition: 0.5s;
+}
+
+.md-rawblock>.md-rawblock-tooltip {
+  transition: 0.5s;
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.md-rawblock:hover>.md-rawblock-tooltip {
+  transition: 0.5s;
+  visibility: visible;
+  opacity: 1;
+  animation: none;
+}
+
+/* meta information of image */
+.md-image>.md-meta {
+  border: 0px;
+  padding: 2px 0px 0px 4px;
+  font-size: 0.9em;
+  color: var(--text-color1);
+}
+
+/* input */
+input {
+  background-color: var(--input-color) !important;
+  border: 0px !important;
+}
+
+/* checkbox */
+input[type="checkbox"]:before {
+  content: "";
+  display: inline-block;
+  width: 1.2rem;
+  height: 1.2rem;
+  vertical-align: middle;
+  text-align: center;
+  border: 0px;
+  border-radius: 3px;
+  background-color: var(--input-color);
+  margin-top: -0.5rem;
+  margin-left: -0.2rem;
+}
+
+/* checkbox hover */
+input[type="checkbox"]:not([disabled]):not(:checked):hover:before {
+  content: "\2713";
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  color: var(--text-color3);
+}
+
+/* checkbox checked*/
+input[type="checkbox"]:checked:before {
+  content: "\2713";
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  color: var(--text-color2);
+}
+
+/* checkbox checked hover*/
+input[type="checkbox"]:checked:hover:before {
+  content: "\2713";
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  color: var(--hover-text-color);
+}
+
+/* radio */
+input[type="radio"]:before {
+  content: "";
+  display: inline-block;
+  width: 1.2rem;
+  height: 1.2rem;
+  vertical-align: middle;
+  text-align: center;
+  border: 0px;
+  border-radius: 0.55rem;
+  background-color: var(--input-color);
+  margin-top: -0.4rem;
+  margin-left: -0.1rem;
+}
+
+/* radio hover */
+input[type="radio"]:not([disabled]):not(:checked):hover:before {
+  content: "\25CF";
+  font-size: 1rem;
+  line-height: 1rem;
+  color: var(--text-color3);
+}
+
+/* radio checked */
+input[type="radio"]:checked:before {
+  content: "\25CF";
+  font-size: 1rem;
+  line-height: 1rem;
+  color: var(--text-color2);
+}
+
+/* radio checked hover*/
+input[type="radio"]:checked:before {
+  content: "\25CF";
+  font-size: 1rem;
+  line-height: 1rem;
+  color: var(--hover-text-color);
+}
+
+/* default focus style */
+:focus {
+  outline-color: var(--focus-color);
+}
+
+/* exit source view button */
+.typora-sourceview-on #toggle-sourceview-btn {
+  background-color: var(--bg-color2);
+}
+
+.typora-sourceview-on #toggle-sourceview-btn:hover {
+  background-color: var(--hover-bg-color1);
+}
+
+/* toc */
+.md-toc {
+  background-color: var(--bg-color3);
+  border-radius: 6px;
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  border: 0px;
+}
+
+/* toc content */
+.md-toc-content {
+  padding-top: 5px;
+  padding-bottom: 8px;
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+/* remove outline when toc is selected */
+.md-toc:focus .md-toc-content {
+  border: 0px;
+  margin: 0px;
+}
+
+/* toc item */
+.md-toc-item {
+  margin: 2px;
+}
+
+/* toc edit panel */
+#write div.md-toc-tooltip {
+  border: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: var(--bg-color3);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  opacity: 0;
+  visibility: hidden;
+  display: block !important;
+  transition: 0.3s;
+}
+
+#write .md-toc:focus div.md-toc-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+#write .md-toc:focus {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+/* toc delete button */
+.md-delete-toc {
+  background-color: transparent;
+}
+
+/* html block */
+.md-htmlblock:hover .md-htmlblock-container {
+  border-radius: 6px;
+  border-top-right-radius: 0px;
+}
+
+/* search panel */
+#md-searchpanel {
+  background-color: var(--bg-color2);
+  color: var(--text-color2);
+}
+
+/* ignore case button and find whole word button */
+.searchpanel-search-option-btn {
+  border: 0px;
+}
+
+/* button on search panel */
+#md-searchpanel .btn:hover {
+  color: var(--hover-text-color);
+  background-color: var(--hover-bg-color1) !important;
+}
+
+/* search option button hover */
+.searchpanel-search-option-btn:not(.active):hover {
+  color: var(--hover-text-color);
+  background-color: var(--hover-bg-color1);
+}
+
+/* close button in search panel */
+#md-searchpanel .input-group-addon.close-btn {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* replaceall button */
+.ty-replace-panel-row #search-panel-replaceall-btn {
+  padding-left: 8px;
+  padding-right: 6px !important;
+}
+
+/* replace button */
+.ty-replace-panel-row #search-panel-replace-btn {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* sidebar */
+.sidebar-menu {
+  color: var(--text-color2);
+}
+
+/* divider between file item and search */
+.ty-sidebar-search-panel {
+  border-color: var(--menu-divider-color);
+}
+
+/* file item in sidebar */
+#file-library .file-list-item {
+  border-bottom: 0px;
+  opacity: 1;
+  border-left: 4px solid;
+  border-color: var(--bg-color2);
+}
+
+/* file item hover */
+#file-library .file-list-item:hover {
+  background-color: var(--hover-bg-color1);
+  color: var(--text-color1);
+  border-color: var(--hover-bg-color1);
+}
+
+/* file item active */
+#file-library .file-list-item.active {
+  background-color: var(--hover-bg-color1);
+  color: var(--text-color1);
+  border-color: var(--dracula-pink);
+}
+
+/* suffix of file item*/
+.file-list-item-file-ext-part {
+  opacity: 0.8;
+}
+
+/* sidebar file menu */
+#sidebar-files-menu {
+  border: 0px;
+}
+
+/* sidebar file menu item */
+.dropdown-menu>li>a {
+  color: var(--text-color2);
+}
+
+.dropdown-menu>li>a:hover {
+  color: var(--hover-text-color);
+}
+
+/* sidebar file menu close button */
+#close-sidebar-menu-btn:hover {
+  color: var(--hover-text-color);
+}
+
+/* sidebar file menu divider */
+#sidebar-files-menu>.show+.menuitem-group-label.show {
+  border-color: var(--menu-divider-color);
+}
+
+/* sidebar osx tab */
+.html-for-mac .sidebar-osx-tab>.sidebar-tabs {
+  border: 0px;
+}
+
+/* sidebar footer */
+.sidebar-footer {
+  border: 0px;
+}
+
+/* remove outline when file item in treeview is selected*/
+.file-library-node:not(.file-node-root):focus>.file-node-content {
+  outline: none;
+}
+
+/* sort button on sidebar file menu */
+.ty-side-sort-btn.active,
+.ty-side-sort-btn:hover {
+  color: var(--hover-text-color);
+}
+
+/* sidebar in setting */
+.sidebar {
+  background-color: var(--bg-color2) !important;
+}
+
+.list-group-content {
+  margin-left: 10px !important;
+}
+
+/* sidebar button in setting menu */
+.nav-group-item {
+  color: var(--text-color2) !important;
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
+/* sidebar button hover in setting menu */
+.nav-group-item:hover,
+.nav-group-item:active,
+.nav-group-item.active {
+  background-color: var(--hover-bg-color1) !important;
+  color: var(--hover-text-color) !important;
+}
+
+/* remove up and down button from number type input*/
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+
+/* the indent example in setting.editor */
+div[data-index="2"] .label-input-group td:last-child div {
+  border: 0px !important;
+  border-radius: 6px;
+  background-color: var(--bg-color5);
+  margin: 10px !important;
+}
+
+/* button in setting menu */
+.ty-preferences button.btn-default {
+  border: 0px;
+  background-color: var(--bg-color5);
+  border-radius: 6px;
+}
+
+/* button hover in setting menu */
+.ty-preferences .btn-default:not([disabled]):hover {
+  background-color: var(--hover-bg-color1) !important;
+}
+
+/* return button in setting menu */
+.window-header button:hover {
+  color: var(--text-color2) !important;
+}
+
+/* search input in setting menu */
+.search-input {
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  margin-left: 10px !important;
+}
+
+.search-input:focus {
+  border: none !important;
+}
+
+/* select item (mostly in setting menu) */
+select {
+  border: 0px;
+  border-radius: 6px;
+  background-color: var(--input-color) !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+/* enabled select item hover */
+select:not([disabled]):hover {
+  color: var(--text-color2);
+  opacity: 1;
+}
+
+/* disabled select item hover */
+select[disabled]:hover {
+  opacity: 0.5;
+}
+
+/* mega menu */
+.megamenu-content,
+.megamenu-opened header {
+  background: var(--bg-color1);
+}
+
+.megamenu-content {
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.megamenu-opened .megamenu-content {
+  visibility: visible;
+  opacity: 1;
+  animation: none;
+}
+
+/* mega menu sidebar*/
+.megamenu-menu {
+  background-color: var(--bg-color2);
+}
+
+/* return button in mega menu */
+#megamenu-menu-sidebar .menu-style-btn {
+  border: 0px;
+}
+
+.megamenu-menu-panel table td:nth-child(1) {
+  color: var(--dracula-foreground);
+}
+
+.megamenu-menu-panel tbody tr:hover td:nth-child(1) {
+  color: var(--dracula-foreground-fade)
+}
+
+/* remove divider in mega menu */
+.megamenu-menu-header {
+  border-color: var(--menu-divider-color);
+}
+
+/* return button color in mega menu */
+.megamenu-menu-header #megamenu-menu-header-title {
+  color: var(--text-color2);
+}
+
+/* return button hover in mega menu */
+.megamenu-menu-header:hover {
+  background-color: var(--hover-bg-color1);
+}
+
+/* return button hover in mega menu */
+.megamenu-menu-header:hover #megamenu-menu-header-title {
+  color: var(--hover-text-color);
+}
+
+/* long button in mega menu */
+.long-btn {
+  border: 0px;
+  background-color: var(--bg-color5);
+  color: var(--text-color1);
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+/* recent file in mega menu */
+#recent-file-panel {
+  padding: 10px;
+}
+
+#recent-file-panel-action-btn {
+  background: var(--bg-color5);
+  border: 0px;
+}
+
+#recent-file-panel thead tr {
+  background-color: var(--table-thead-color);
+}
+
+#recent-file-panel tbody tr:nth-child(2n) {
+  background-color: var(--table-bg-darker-color);
+}
+
+#recent-file-panel tbody tr:nth-child(2n + 1) {
+  background-color: var(--table-bg-color);
+}
+
+#recent-file-panel-action-btn:hover {
+  background-color: var(--hover-bg-color1);
+  color: var(--text-color2);
+}
+
+/* theme preview hover */
+.theme-preview-div:hover {
+  border-color: var(--theme-select-color);
+}
+
+/* context menu and spell check panel */
+.dropdown-menu:not(.megamenu-menu-list) {
+  background-color: var(--bg-color2);
+  color: var(--text-color2);
+}
+
+/* divider in context menu and spell check panel */
+.dropdown-menu .divider {
+  border-color: var(--menu-divider-color);
+}
+
+/* remove divider outline */
+.dropdown-menu {
+  border: 0px;
+}
+
+/* footer */
+footer.ty-footer {
+  border-top: 0px !important;
+  background-color: var(--bg-color2) !important;
+}
+
+/* footer item */
+.footer-item,
+#outline-btn,
+#footer-word-count {
+  color: var(--text-color2);
+  opacity: 1;
+}
+
+/* footer item hover */
+.footer-item:hover,
+#outline-btn:hover {
+  background-color: var(--hover-bg-color1);
+  color: var(--hover-text-color);
+}
+
+/* button on some panel */
+.btn {
+  border: 0px;
+  outline-width: 0px !important;
+}
+
+.btn:hover {
+  background-color: var(--hover-bg-color1);
+  color: var(--hover-text-color);
+}
+
+/* traffic button hover */
+#top-titlebar .toolbar-icon.btn:hover {
+  color: var(--text-color2);
+  background-color: var(--hover-bg-color1);
+}
+
+/* traffic button hover */
+#top-titlebar #w-close:hover {
+  background-color: #e81123 !important;
+}
+
+/* adjust maxmize restore button height */
+.typora-maxmized #w-restore {
+  height: 24px;
+}
+
+/* left upper button hover */
+.ty-menu-btn-area:hover .ty-menu-btn-area-sub {
+  color: var(--text-color2) !important;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  padding-right: 10px;
+  background-color: var(--scrollbar-track-color);
+}
+
+/* scrollbar track */
+::-webkit-scrollbar-track:hover {
+  background-color: var(--scrollbar-track-color) !important;
+  border-radius: 4px;
+}
+
+/* scrollbar thumb */
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--scrollbar-thumb-color) !important;
+  border-radius: 4px;
+}
+
+/* tip when hover on a button */
+#ty-tooltip {
+  background-color: var(--bg-color4);
+  color: var(--text-color4);
+}
+
+/* item container hover in context menu */
+.menu-item-container:hover {
+  background-color: var(--bg-color2);
+}
+
+/* item in context menu */
+.menu-item-container .menu-style-btn {
+  border-color: var(--menu-divider-color);
+}
+
+/* mathjax edit panel*/
+.md-rawblock-before {
+  border-top-left-radius: 6px;
+}
+
+.md-rawblock-after {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+/* mathjax focus */
+.MathJax_SVG:focus {
+  outline: none;
+  background-color: transparent;
+}
+
+/* notification panel */
+#md-notification {
+  background-color: var(--dracula-red) !important;
+  color: var(--text-color2);
+}
+
+#ty-surpress-mode-warning-close-btn {
+  float: unset !important;
+  margin: 0px !important;
+}
+
+.unibody-window #md-notification p {
+  bottom: -4px !important;
+}
+
+/* inline codeblock */
+code {
+  font-size: 0.9em;
+  background-color: var(--bg-color5);
+  border-radius: 6px;
+  padding: 4px 4px 4px 4px;
+  margin: 0px 0px 0px 0px;
+}
+
+/* codeblock */
+.md-fences,
+.md-fences:active {
+  background-color: var(--bg-color5);
+  border-radius: 6px;
+  padding: 8px 4px 8px 4px !important;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.md-fences .code-tooltip {
+  display: block !important;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+  background-color: var(--bg-color3);
+}
+
+.md-fences.md-focus .code-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.CodeMirror-lines {
+  padding-left: 4px;
+  color: var(--dracula-orange);
+}
+
+/* selected text and cursor */
+.CodeMirror-selected,
+.CodeMirror-selectedtext {
+  background: var(--code-select-bg-color) !important;
+}
+
+.CodeMirror div.CodeMirror-cursor {
+  border-left: 2px solid var(--code-cursor-color);
+  z-index: 3;
+}
+
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor {
+  border-left: 3px solid var(--code-cursor-color);
+}
+
+/* highlight */
+.cm-s-inner .cm-property {
+  color: var(--code-blue-color) !important;
+}
+
+.cm-s-inner .cm-operator {
+  color: var(--code-cyan-color) !important;
+}
+
+.cm-s-inner .cm-keyword {
+  color: var(--code-purple-color) !important;
+}
+
+.cm-s-inner .cm-tag {
+  color: var(--code-red-color) !important;
+}
+
+.cm-s-inner .cm-attribute {
+  color: var(--code-orange-color) !important;
+}
+
+.cm-s-inner .cm-string {
+  color: var(--code-green-color) !important;
+}
+
+.cm-s-inner .cm-comment,
+.cm-s-inner.cm-comment {
+  color: var(--code-grey-color) !important;
+  font-style: italic;
+}
+
+.cm-s-inner .cm-header,
+.cm-s-inner .cm-def,
+.cm-s-inner.cm-header,
+.cm-s-inner.cm-def {
+  color: var(--code-blue-color) !important;
+}
+
+.cm-s-inner .cm-meta,
+.cm-s-inner .cm-qualifier {
+  color: var(--code-red-color) !important;
+}
+
+.cm-s-inner .cm-builtin {
+  color: var(--code-cyan-color) !important;
+}
+
+.cm-s-inner .cm-bracket {
+  color: var(--text-color1) !important;
+}
+
+.cm-s-inner .cm-number {
+  color: var(--code-orange-color) !important;
+}
+
+.cm-s-inner .cm-variable {
+  color: var(--text-color1) !important;
+}
+
+.cm-s-inner .cm-variable-2 {
+  color: var(--code-yellow-color) !important;
+}
+
+.cm-s-typora-default .cm-header,
+.cm-s-typora-default .cm-property {
+  color: var(--code-red-color) !important;
+}
+
+.cm-s-typora-default .cm-string {
+  color: var(--code-purple-color);
+}
+
+.cm-s-typora-default .cm-atom {
+  color: var(--code-grey-color);
+  font-style: italic;
+}
+
+.cm-s-typora-default .cm-number {
+  color: var(--code-orange-color);
+  font-style: normal !important;
+}
+
+.cm-s-typora-default .cm-link {
+  color: var(--code-blue-color);
+}
+
+.cm-s-typora-default .CodeMirror-activeline-background {
+  background: var(--hover-bg-color1);
+}
+
+.cm-s-typora-default .cm-comment,
+.cm-s-typora-default .cm-code {
+  color: var(--code-purple-color);
+}
+
+.cm-s-typora-default .cm-tag {
+  color: var(--code-blue-color);
+}
+
+.cm-s-typora-default .cm-strong,
+.cm-s-typora-default .cm-em,
+.cm-s-typora-default .cm-del {
+  color: var(--code-orange-color);
+}
+
+.cm-s-typora-default .cm-block-start.cm-variable-2 {
+  color: var(--code-red-color);
+}
+
+.cm-formatting-task .cm-formatting-task {
+  color: var(--code-red-color);
+}
+
+/* math formula tag */
+.cm-s-inner .cm-atom,
+.cm-s-inner.cm-atom {
+  color: var(--code-blue-color);
+}
+
+/* inline codeblock in source mode */
+.cm-s-typora-default .cm-comment {
+  color: var(--code-green-color);
+}
+
+/* horizontal divider when language is markdown */
+.cm-s-inner .cm-hr {
+  color: var(--text-color1);
+}
+
+/* variable type when language is c/cpp */
+.cm-s-inner .cm-variable-3 {
+  color: var(--code-purple-color);
+}
+
+/* in pie chart and flowchart */
+.cm-s-inner .cm-quote,
+.cm-s-inner.cm-quote {
+  color: var(--code-green-color);
+}
+
+/* unknown highlight keyword */
+.cm-s-inner .cm-link {
+  color: var(--code-blue-color);
+}
+
+.cm-s-inner .cm-negative {
+  color: var(--dracula-red);
+}
+
+.cm-s-inner .cm-positive {
+  color: var(--dracula-green);
+}
+
+.cm-s-inner .cm-string-2 {
+  color: var(--dracula-orange);
+}
+
+.CodeMirror-gutters {
+  border-right: none;
+  color: var(--dracula-orange);
+}
+
+/* focus mode */
+.on-focus-mode .md-end-block:not(.md-focus) .md-toc-item {
+  opacity: 0.5;
+}
+
+.on-focus-mode #write h1:not(.md-focus):before {
+  opacity: 0.5;
+}
+
+.on-focus-mode #write h2:not(.md-focus):before {
+  opacity: 0.5;
+}
+
+.on-focus-mode #write h1:not(.md-focus) {
+  border-color: var(--text-color5);
+}
+
+.on-focus-mode #write h2:not(.md-focus) {
+  border-color: var(--text-color5);
+}
+
+.on-focus-mode #write h3:not(.md-focus) {
+  border-color: var(--text-color5);
+}
+
+/* YAML block */
+pre.md-meta-block,
+pre.md-meta-block:active {
+  background-color: var(--bg-color5);
+  border-radius: 6px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* switch between different mode */
+#typora-source {
+  display: block !important;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.typora-sourceview-on #typora-source {
+  visibility: visible;
+  opacity: 1;
+}
+
+#typora-source .CodeMirror-lines {
+  max-width: 1200px;
+  padding-left: 70px;
+  padding-right: 70px;
+  color: var(--dracula-orange);
+}
+
+#write {
+  display: block !important;
+  visibility: visible;
+  opacity: 1;
+  transition: 0.3s;
+  max-width: 1200px;
+  padding-left: 70px;
+  padding-right: 70px;
+}
+
+.typora-sourceview-on #write {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.uni-preference-panel {
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.show-preference-panel .uni-preference-panel {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* quick open menu */
+.typora-quick-open-item:hover {
+  background-color: var(--hover-bg-color1);
+  color: var(--hover-text-color);
+}
+
+/* insert table panel */
+.modal-content {
+  border: 0px;
+  border-radius: 6px;
+}
+
+.modal-content .btn-primary {
+  background-color: var(--hover-bg-color1);
+  color: var(--text-color1);
+  outline-width: 0px;
+}
+
+.modal-content .btn-primary:hover {
+  color: var(--hover-text-color);
+}
+
+.modal-backdrop {
+  background-color: black;
+  opacity: 0.3 !important;
+}
+
+/* zoom  */
+#zoom-hint #zoom-hint-reset {
+  color: var(--text-color1);
+}
+
+#zoom-hint .zoom-hint-button:hover {
+  color: var(--hover-text-color) !important;
+}
+
+/* word count */
+#footer-word-count-info {
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.ty-show-word-count #footer-word-count-info {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* spell check */
+#spell-check-panel {
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.ty-show-spell-check #spell-check-panel {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* search result */
+.md-search-select {
+  border: 2px solid var(--dracula-cyan);
+  box-sizing: content-box;
+  color: var(--text-color1) !important;
+}
+
+.md-search-hit {
+  background-color: var(--search-select-bg-color);
+}
+
+/* search panel message */
+#searchpanel-msg {
+  background-color: var(--bg-color2);
+  color: var(--text-color2);
+}
+
+.searchpanel-msg-btn:hover {
+  background-color: var(--hover-bg-color1);
+  color: var(--hover-text-color);
+}
+
+/* language selection for codeblock */
+.auto-suggest-container {
+  border: 0px;
+  background-color: var(--bg-color2);
+}
+
+/* sidebar outline item hover and active */
+.outline-item:hover {
+  color: var(--hover-text-color);
+}
+
+.outline-label:hover {
+  text-decoration: none;
+}
+
+.pin-outline .outline-active {
+  color: var(--hover-text-color);
+}
+
+/* sidebar title hover */
+.info-panel-tab:hover {
+  color: var(--hover-text-color) !important;
+}
+
+/* active file in sidebar file menu tree view */
+.file-tree-node.active>.file-node-background {
+  background-color: var(--hover-bg-color1);
+}
+
+/* hover file in sidebar file menu tree view */
+.file-node-content:hover {
+  cursor: pointer;
+}
+
+/* saved button in megamenu */
+#m-saved:hover {
+  background-color: var(--bg-color2);
+  color: var(--text-color2);
+  cursor: default;
+}
+
+/* mermaid flowchart */
+.node rect,
+.node circle,
+.node ellipse,
+.node polygon,
+.node path {
+  fill: var(--bg-color2) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.edgePath .path {
+  stroke: var(--menu-divider-color) !important;
+}
+
+.label {
+  color: var(--text-color1) !important;
+}
+
+.edgeLabel rect {
+  fill: transparent !important;
+}
+
+.cluster rect {
+  fill: var(--bg-color5) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+/* mermaid sequence*/
+text.actor {
+  fill: var(--text-color1) !important;
+}
+
+.messageLine0,
+.messageLine1 {
+  stroke: var(--menu-divider-color) !important;
+}
+
+rect[class*="activation"] {
+  fill: var(--bg-color2) !important;
+}
+
+.actor-line {
+  stroke-width: 1px !important;
+}
+
+.labelBox {
+  stroke: var(--dracula-current-line) !important;
+}
+
+.labelText {
+  fill: var(--text-color1) !important;
+}
+
+.loopText {
+  fill: var(--text-color1) !important;
+}
+
+.loopLine {
+  stroke: var(--dracula-current-line) !important;
+}
+
+.note {
+  fill: var(--bg-color2) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.noteText {
+  fill: var(--text-color1) !important;
+}
+
+/* mermaid class */
+g.classGroup text {
+  fill: var(--text-color) !important;
+}
+
+g.classGroup rect {
+  stroke: var(--menu-divider-color) !important;
+  fill: var(--bg-color2) !important;
+}
+
+g.classGroup line {
+  stroke: var(--menu-divider-color) !important;
+}
+
+.classLabel .label {
+  fill: var(--text-color1) !important;
+}
+
+.relation {
+  stroke: var(--menu-divider-color) !important;
+}
+
+#compositionStart,
+#compositionEnd,
+#aggregationStart,
+#aggregationEnd,
+#dependencyStart,
+#dependencyStart,
+#extensionStart,
+#extensionEnd {
+  fill: var(--menu-divider-color) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.cardinality text {
+  fill: var(--text-color) !important;
+}
+
+/* mermaid state v1 */
+.stateGroup rect,
+.stateGroup line {
+  fill: var(--bg-color2) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.stateGroup text {
+  fill: var(--text-color) !important;
+}
+
+.stateGroup circle {
+  fill: var(--bg-color4) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.stateGroup .composit {
+  fill: var(--dracula-background-dark) !important;
+}
+
+.stateGroup .alt-composit {
+  fill: var(--dracula-background-dark) !important;
+}
+
+.state-note rect {
+  fill: var(--bg-color2) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.state-note text {
+  fill: var(--text-color) !important;
+}
+
+.stateLabel text {
+  fill: var(--text-color) !important;
+}
+
+#dependencyEnd {
+  fill: var(--menu-divider-color) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+/* mermaid state v2*/
+.state-start {
+  fill: var(--bg-color4) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.state-end {
+  stroke: var(--menu-divider-color) !important;
+  fill: var(--bg-color4) !important;
+}
+
+.divider {
+  stroke: var(--menu-divider-color) !important;
+  fill: var(--bg-color5) !important;
+  fill: var(--dracula-background-dark) !important;
+}
+
+.fork-join {
+  fill: var(--bg-color2) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.title-state {
+  fill: var(--bg-color2) !important;
+}
+
+.statediagram-cluster .outer {
+  stroke: var(--menu-divider-color) !important;
+}
+
+.statediagram-cluster .inner {
+  fill: var(--dracula-background-dark) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.statediagram-cluster-alt .inner {
+  fill: var(--dracula-background-dark) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.transition {
+  stroke: var(--menu-divider-color) !important;
+}
+
+#statediagram-barbEnd {
+  fill: var(--menu-divider-color) !important;
+}
+
+/* mermaid journey */
+.journey-section {
+  fill: var(--bg-color5) !important;
+  stroke: var(--menu-divider-color) !important;
+}
+
+.journey-section div {
+  color: var(--text-color) !important;
+}
+
+.task {
+  fill: var(--bg-color2) !important;
+  stroke: var(--menu-divider-color) !important;
+  stroke-width: 1px !important;
+}
+
+.task div {
+  color: var(--text-color) !important;
+}
+
+#arrowhead {
+  fill: var(--menu-divider-color) !important;
+  stroke: var(--menu-divider-color) !important;
+  stroke-width: 0.3px !important;
+}
+
+pre[mermaid-type="journey"] line {
+  stroke: var(--menu-divider-color) !important;
+  stroke-width: 2px !important;
+}
+
+pre[mermaid-type="journey"] text {
+  fill: var(--text-color1) !important;
+}
+
+pre[mermaid-type="journey"] g path,
+pre[mermaid-type="journey"] g line {
+  fill: var(--dracula-comment) !important;
+  stroke: var(--text-color) !important;
+}
+
+.task-line {
+  stroke: var(--menu-divider-color) !important;
+}
+
+/* mermaid erDiagram */
+pre[mermaid-type="erDiagram"] rect {
+  fill: var(--bg-color2) !important;
+}
+
+pre[mermaid-type="erDiagram"] text {
+  fill: var(--text-color) !important;
+}
+
+pre[mermaid-type="erDiagram"] path {
+  stroke: var(--menu-divider-color) !important;
+}
+
+#ZERO_OR_ONE_START circle,
+#ZERO_OR_ONE_END circle,
+#ZERO_OR_MORE_START circle,
+#ZERO_OR_MORE_END circle {
+  fill: var(--bg-color) !important;
+}
+
+/* mermaid gantt */
+.titleText {
+  fill: var(--text-color1) !important;
+}
+
+.section0,
+.section2 {
+  fill: var(--table-thread-color) !important;
+}
+
+.section1,
+.section3 {
+  fill: var(--table-bg-color) !important;
+}
+
+.task0,
+.task1,
+.task2,
+.task3 {
+  fill: var(--dracula-current-line) !important;
+  stroke: var(--dracula-current-line) !important;
+}
+
+.taskText0,
+.taskText1,
+.taskText2,
+.taskText3 {
+  fill: var(--text-color2) !important;
+}
+
+.active0,
+.active1,
+.active2,
+.active3 {
+  fill: var(--dracula-current-line) !important;
+  stroke: var(--dracula-current-line) !important;
+}
+
+.activeText0,
+.activeText1,
+.activeText2,
+.activeText3 {
+  fill: var(--text-color2) !important;
+}
+
+.done0,
+.done1,
+.done2,
+.done3 {
+  fill: var(--dracula-background-dark) !important;
+  stroke: var(--dracula-background-dark) !important;
+}
+
+.crit0,
+.crit1,
+.crit2,
+.crit3 {
+  fill: var(--dracula-current-line) !important;
+  stroke: var(--text-color1) !important;
+}
+
+.activeCrit0,
+.activeCrit1,
+.activeCrit2,
+.activeCrit3 {
+  fill: var(--dracula-current-line) !important;
+  stroke: var(--text-color1) !important;
+}
+
+.doneCrit0,
+.doneCrit1,
+.doneCrit2,
+.doneCrit3 {
+  fill: var(--dracula-background-dark) !important;
+  stroke: var(--text-color1) !important;
+}
+
+.taskTextOutside0,
+.taskTextOutside2,
+.taskTextOutside1,
+.taskTextOutside3 {
+  fill: var(--text-color1) !important;
+}
+
+.grid text {
+  fill: var(--dracula-foreground) !important;
+}
+
+.today {
+  stroke: var(--text-color1) !important;
+}
+
+/* mermaid pie chart */
+g.legend>text {
+  fill: var(--text-color1) !important;
+}
+
+g.legend>rect {
+  stroke: var(--bg-color) !important;
+}
+
+g>path {
+  stroke: var(--bg-color) !important;
+}
+
+g>text.slice {
+  fill: var(--bg-color) !important;
+}
+
+/* flow diagram */
+.md-fences[lang="flow"] .md-diagram-panel-preview rect {
+  fill: var(--bg-color2) !important;
+  stroke: var(--menu-divider-color) !important;
+  stroke-width: 1.2 !important;
+}
+
+.md-fences[lang="flow"] .md-diagram-panel-preview path {
+  stroke: var(--menu-divider-color) !important;
+  stroke-width: 1.2 !important;
+}
+
+.md-fences[lang="flow"] #cond {
+  fill: var(--bg-color2) !important;
+}
+
+/* sequence diagram */
+.md-fences[lang="sequence"] .md-diagram-panel-preview rect:not([fill="none"]) {
+  fill: var(--bg-color2) !important;
+  stroke: var(--menu-divider-color) !important;
+  stroke-width: 1.2 !important;
+}
+
+.md-fences[lang="sequence"] .md-diagram-panel-preview path {
+  fill: var(--menu-divider-color) !important;
+  stroke: var(--menu-divider-color) !important;
+  stroke-width: 1.2 !important;
+}
+
+.md-fences[lang="sequence"] text,
+.md-fences[lang="flow"] text {
+  font-family: "Consolas" !important;
+}
+
+/* remove border when edit graph */
+.md-diagram-panel {
+  border: none !important;
+}
+
+kbd {
+  background: var(--bg-color5);
+  color: var(--text-color1);
+  font-family: "Lucida Console";
+  border-color: var(--menu-divider-color);
+}
+
+#write mark {
+    background-color: #EBFFEB;
+    border-radius: 2px;
+    padding: 2px 4px;
+    margin: 0 2px;
+    color: #222;
+    font-weight: 500;
+}
+
+#write strong {
+    color: var(--dracula-orange);
+}
+
+
+
+
+mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+  min-height: 1px;
+  min-width: 1px;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line], svg[data-table] > g > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame], svg[data-table] > g > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed, svg[data-table] > g > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted, svg[data-table] > g > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > g > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
+  stroke-width: 3;
+}
+
+g[data-mml-node="xypic"] path {
+  stroke-width: inherit;
+}
+
+.MathJax g[data-mml-node="xypic"] path {
+  stroke-width: inherit;
+}
+mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
+							stroke-width: 0;
+						}
+</style>
+</head>
+<body class='typora-export os-windows typora-export-show-outline typora-export-collapse-outline'>
+      <!--导航栏-->
+<div id="navbar_TreasureHouse"></div><div class='typora-export-content'>
+<div class="typora-export-sidebar"><div class="outline-content"><li class="outline-item-wrapper outline-h1 outline-item-single"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#"> </a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#利用rosetta进行蛋白质柔性对接">利用Rosetta进行蛋白-蛋白柔性对接</a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h2 outline-item-single"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#1-基本原理与流程">1. 基本原理与流程</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h2 outline-item-single"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#2-输入结构准备">2. 输入结构准备</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#3-relax生成不同构象">3. Relax生成不同构象</a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h3 outline-item-single"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#31-参数文件准备">3.1 参数文件准备</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h3 outline-item-single"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#32-运行relax">3.2 运行relax</a></div><ul class="outline-children"></ul></li></ul></li><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#4-使用不同构象集进行docking">4. 使用不同构象集进行Docking</a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h3 outline-item-single"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#41-参数文件准备">4.1 参数文件准备</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h3 outline-item-single"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#42-运行docking">4.2 运行Docking</a></div><ul class="outline-children"></ul></li></ul></li><li class="outline-item-wrapper outline-h2 outline-item-single"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#5-结果分析">5. 结果分析</a></div><ul class="outline-children"></ul></li></ul></li><li class="outline-item-wrapper outline-h1 outline-item-single"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#附脚本和参数文件">附：脚本和参数文件</a></div><ul class="outline-children"></ul></li></div></div><div id='write'  class=''><h1><span> </span></h1><h1 id='利用rosetta进行蛋白质柔性对接'><span>利用Rosetta进行蛋白质柔性对接</span></h1><p>&nbsp;</p><h2 id='1-基本原理与流程'><span>1. 基本原理与流程</span></h2><p><span>以Local Docking为例，Rosetta将初始结构中配体与受体两者拉开一定距离后，将配体随机</span><strong><span>旋转与平移</span></strong><span>特定角度/距离后再逐步靠近受体形成复合物，并评价结合的稳定性。Rosetta实现Local Docking具有较高的精度，但很大程度上依赖于提供的初始结构，一般要求受配体的结合位点方向相对。并保持距离在10 </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="1.118ex" height="2.149ex" role="img" focusable="false" viewBox="0 -750 494.1 950" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.452ex;"><defs></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="TeXAtom" data-mjx-texclass="ORD"><g data-mml-node="mi"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">Å</text></g></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow data-mjx-texclass="ORD"><mi mathvariant="normal">Å</mi></mrow></math></mjx-assistive-mml></mjx-container><script type="math/tex">\mathrm{\AA}</script><span> 以内。</span></p><p><span>考虑到结合过程中受配体会发生一定的柔性变化，在对接之前，分别对受配体进行relax以生成多种构象（ensemble），并以此进行对接，从而反映对接过程中的构象可变性。一般情况下，我们仅对</span><strong><span>侧链</span></strong><span>进行relax而保持骨架结构基本不变。</span></p><p><span>因此，Rosetta中进行蛋白-蛋白柔性对接的基本流程为：</span></p><ol start='' ><li><span>输入结构准备：受体PDB文件（</span><code>R.PDB</code><span>）、配体PDB文件（</span><code>L.PDB</code><span>）、初猜复合体结构（</span><code>complex.PDB</code><span>）</span></li><li><span>relax分别生成受体、配体的ensemble</span></li><li><span>进行Local Docking</span></li><li><span>分析结果，寻找最优结构</span></li></ol><p><span>Rosetta子程序使用命令行调用时，为了方便，可以将输入的参数汇总在一个</span><strong><span>flag</span></strong><span>文件中输入</span></p><p><span>本文的例程中包括：</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 10.2375px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 264.025px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>12</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">├── flag</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">│&nbsp;&nbsp; ├── docking_flag</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">│&nbsp;&nbsp; ├── docking_prepack_flag</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">│&nbsp;&nbsp; ├── relax_flag_ChainL</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">│&nbsp;&nbsp; └── relax_flag_ChainR</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">├── input</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">│&nbsp;&nbsp; ├── R.pdb</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">│&nbsp;&nbsp; ├── L.pdb</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">│&nbsp;&nbsp; └── complex.pdb</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">└── sh</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    ├── dock.sh</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    └── relax.sh</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 294px;"></div><div class="CodeMirror-gutters" style="height: 294px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 36px;"></div></div></div></div></pre><p><span>其中：</span></p><ul><li><code>flag</code><span>目录下包括输入参数（Flag）文件</span></li><li><code>input</code><span>目录下包括三个输入PDB结构文件</span></li><li><code>sh</code><span>目录包括运行脚本文件</span></li></ul><p>&nbsp;</p><p><span>所调用的Rosetta子程序一般位于Rosetta安装目录下的：</span><code>source/bin/</code><span>。为了方便，这里在</span><code>~/.bashrc</code><span>中加入环境变量：</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="bash"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang="bash"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 10.2375px; left: 35px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 27px; margin-bottom: 0px; border-right-width: 0px; min-width: 585.3px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>1</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -27px; width: 27px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -27px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 19px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">export</span> <span class="cm-def">RosettaHOME</span><span class="cm-operator">=</span>xxx/xxx/source/bin <span class="cm-comment">#xxx/xxx为Rosetta的安装目录</span></span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 24px;"></div><div class="CodeMirror-gutters" style="height: 24px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 27px;"></div></div></div></div></pre><p>&nbsp;</p><h2 id='2-输入结构准备'><span>2. 输入结构准备</span></h2><p><span>需要准备三个初始结构文件：</span></p><ul><li><span>受体PDB文件（</span><code>R.PDB</code><span>）</span></li><li><span>配体PDB文件（</span><code>L.PDB</code><span>）</span></li><li><span>初猜的符合体结构PDB文件（</span><code>complex.PDB</code><span>），即将受体与配体的结合位点相对放置，并保持距离在10 </span><mjx-container class="MathJax" jax="SVG" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="1.118ex" height="2.149ex" role="img" focusable="false" viewBox="0 -750 494.1 950" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.452ex;"><defs></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="TeXAtom" data-mjx-texclass="ORD"><g data-mml-node="mi"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">Å</text></g></g></g></g></svg><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow data-mjx-texclass="ORD"><mi mathvariant="normal">Å</mi></mrow></math></mjx-assistive-mml></mjx-container><script type="math/tex">\mathrm{\AA}</script><span> 以内</span></li></ul><p><span>同时需要注意：</span></p><ul><li><span>三个文件中的链名称应对应一致；即</span><code>complex.PDB</code><span>中各条链的名称与</span><code>R.PDB</code><span>， </span><code>L.PDB</code><span>中的一致</span></li><li><span>受体或则配体PDB文件中可以包含多条链；在</span><code>complex.PDB</code><span>中受体和配体的多条链应连续出现在一起（如配体为BC，受体为DA，则允许出现的顺序为BCDA或DABC）</span></li><li><span>尽量去除除蛋白分子外的其他分子，或去除对于Binding没有影响的Domain</span></li><li><code>complex.PDB</code><span>与</span><code>R.PDB</code><span>+</span><code>L.PDB</code><span>的总原子数、残基数保持绝对一致</span></li></ul><h2 id='3-relax生成不同构象'><span>3. Relax生成不同构象</span></h2><h3 id='31-参数文件准备'><span>3.1 参数文件准备</span></h3><p><span>本例中使用的参数文件为</span><code>flag/relax_flag_ChainL</code><span>和</span><code>flag/relax_flag_ChainR</code><span>，分别用于配体、受体的relax运行</span></p><p><span>以</span><code>flag/relax_flag_ChainL</code><span>为例，文件内容如下：</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="" style="break-inside: unset;"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 10.2375px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 355.812px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>17</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-nstruct 35</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-in:file:s ../input/L.pdb</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-relax:constrain_relax_to_start_coords</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-relax:ramp_constraints false</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-ex1</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-ex2</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-use_input_sc</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-flip_HNQ</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-no_optH false</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">15</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-relax:default_repeats 5</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">16</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-out:path:pdb ./PDB_output/ChainL</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">17</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-out:path:score ./score_output/ChainL</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 416px;"></div><div class="CodeMirror-gutters" style="height: 416px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 36px;"></div></div></div></div></pre><p><span>其中关键参数：</span></p><ul><li><code>-nstruct</code><span>：生成多少个relax结构，一般大于25</span></li><li><code>-in:file:s</code><span>：输入的PDB文件路径</span></li><li><code>-relax:constrain_relax_to_start_coords</code><span>：保持骨架链不变</span></li><li><code>-flip_HNQ</code><span>：考虑H、N、Q三种残基环的翻转</span></li><li><code>-no_optH</code><span>：是否优化H（false为优化）</span></li><li><code>-relax:default_repeats</code><span>：每个输出结构重复relax的次数</span></li><li><code>-out:path:pdb</code><span>：输出PDB的路径</span></li><li><code>-out:path:score</code><span>：输出评分的路径</span></li></ul><h3 id='32-运行relax'><span>3.2 运行relax</span></h3><p><span>进行relax的子程序名称为</span><code>relax.xxx.xxx</code><span>，如本例中为</span><code>$RosettaHOME/relax.static.linuxgccrelease</code><span>。调用时，使用</span><code>@</code><span>标签传入flag文件</span></p><p><span>这里使用自动化脚本运行两者的relax，存放于</span><code>sh/relax.sh</code></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="bash" style="break-inside: unset;"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang="bash"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 10.2375px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 631.188px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>89</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># ! bin/bash</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># Using "nohup sh sh/relax.sh &amp;"</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">touch</span> ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cat</span> /dev/null &gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">rm</span> <span class="cm-attribute">-rf</span> relax</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> relax</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#Generate Log Files</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">touch</span> relax/LOG.log</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n ###################\n\n"</span> &gt;&gt;  ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">15</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\nStart From:"</span> &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">16</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">date &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">17</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\n"</span>  &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">18</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">19</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#####################</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">20</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># Entering 'relax'</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">21</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#####################</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">22</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> ./relax</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">23</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">24</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">rm</span> <span class="cm-attribute">-rf</span> PDB_output</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">25</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">rm</span> <span class="cm-attribute">-rf</span> score_output</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">26</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">27</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">28</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> PDB_output</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">29</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> PDB_output/ChainL</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">30</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> PDB_output/ChainR</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">31</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">32</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> score_output</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">33</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> score_output/ChainL</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">34</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> score_output/ChainR</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">35</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> </span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">36</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#Run relax of L.PDB</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">37</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">$RosettaHOME</span>/relax.static.linuxgccrelease @../flag/relax_flag_ChainL</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">38</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">39</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\n#############\n\nChainL Done: "</span> &gt;&gt; ../nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">40</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">date &gt;&gt; ../nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">41</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\n#############\n\n"</span> &gt;&gt; ../nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">42</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">43</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#Run relax of R.PDB</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">44</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">$RosettaHOME</span>/relax.static.linuxgccrelease @../flag/relax_flag_ChainR</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">45</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">46</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">47</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> ../</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">48</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#####################</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">49</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># Exit 'relax'</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">50</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#####################</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">51</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\nChainR Done:"</span> &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">52</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">date &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">53</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">54</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\nALL THE RELAX DONE\n\n"</span> &gt;&gt;  ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">55</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\n######################\n\n"</span> &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">56</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">57</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">###########</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">58</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Generate list of ensemble files</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">59</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">###########</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">60</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#! bin/bash</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">61</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">62</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> relax/PDB_output/ChainL</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">63</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">rm</span> <span class="cm-attribute">-f</span> ensemble.list</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">64</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">filelist1</span><span class="cm-operator">=</span><span class="cm-string">""</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">65</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> file <span class="cm-keyword">in</span> <span class="cm-quote">`ls`</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">66</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-keyword">do</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">67</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-def">filename</span><span class="cm-operator">=</span><span class="cm-quote">`realpath </span><span class="cm-def">$file</span><span class="cm-quote">`</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">68</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-def">filelist1</span><span class="cm-operator">=</span><span class="cm-def">$filelist1</span><span class="cm-string">"\n"</span><span class="cm-def">$filename</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">69</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-keyword">done</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">70</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-string">"</span><span class="cm-def">$filelist1</span><span class="cm-string">"</span> &gt; ensemble.list</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">71</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> ../../../</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">72</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">73</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> relax/PDB_output/ChainR</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">74</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">rm</span> <span class="cm-attribute">-f</span> ensemble.list</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">75</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">filelist2</span><span class="cm-operator">=</span><span class="cm-string">""</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">76</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> file <span class="cm-keyword">in</span> <span class="cm-quote">`ls`</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">77</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-keyword">do</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">78</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-def">filename</span><span class="cm-operator">=</span><span class="cm-quote">`realpath </span><span class="cm-def">$file</span><span class="cm-quote">`</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">79</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-def">filelist2</span><span class="cm-operator">=</span><span class="cm-def">$filelist2</span><span class="cm-string">"\n"</span><span class="cm-def">$filename</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">80</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-keyword">done</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">81</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-string">"</span><span class="cm-def">$filelist2</span><span class="cm-string">"</span> &gt; ensemble.list</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">82</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> ../../../</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">83</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">84</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">85</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cat</span> ./nohup.out &gt; relax/LOG.log</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">86</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cat</span> /dev/null &gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">87</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">88</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">rm</span> <span class="cm-attribute">-rf</span> relax/PDB_output_backup</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">89</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cp</span> <span class="cm-attribute">-r</span> relax/PDB_output relax/PDB_output_backup</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 2178px;"></div><div class="CodeMirror-gutters" style="height: 2178px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 36px;"></div></div></div></div></pre><p><span>运行后生成了不同结构的评分（位于</span><code>./relax/score_output</code><span>），不同relax后的PDB结构（</span><code>./relax/PDB_output</code><span>），以及</span><code>ensemble.list</code><span>文件，包含了每条链下每个relax输出结果的绝对路径。</span></p><h2 id='4-使用不同构象集进行docking'><span>4. 使用不同构象集进行Docking</span></h2><h3 id='41-参数文件准备'><span>4.1 参数文件准备</span></h3><p><span>用于Local Docking的参数文件为</span><code>flag/docking_prepack_flag</code><span>和</span><code>flag/docking_prepack_flag</code><span>，分别为用于预处理（打包ensemble文件）和运行Docking</span></p><p><span>其中</span><code>flag/docking_flag</code><span>如下：</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="" style="break-inside: unset;"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 10.2375px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 475.138px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>15</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-in:file:s ../input/complex.pdb</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-nstruct 1250</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-partners D_M</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-dock_pert 1 4</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-ensemble1 ../relax/PDB_output/ChainR/ensemble.list</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-ensemble2 ../relax/PDB_output/ChainL/ensemble.list</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-ex1</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-ex2aro</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-out:path:all ./output</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">15</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">-out:suffix _ensemble_docking</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 367px;"></div><div class="CodeMirror-gutters" style="height: 367px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 36px;"></div></div></div></div></pre><p><span>其中关键参数：</span></p><ul><li><code>-nstruct</code><span>：生成多少个Docking结构，一般大于500</span></li><li><code>-in:file:s</code><span>：输入的PDB文件路径</span></li><li><code>-partner</code><span>：指定参与对接的受体、配体的链编号；下划线</span><code>_</code><span>分割受体和配体</span></li><li><code>-ensemble1</code><span>和</span><code>-ensemble2</code><span>：指定输入受体、配体构象集的</span><code>ensemble.list</code><span>的路径</span></li><li><code>-out:path:all</code><span>：输出结果的路径</span></li></ul><blockquote><p><b style="color:red"><span>需要注意，</span><code>-partner</code><span>指定的链的顺序必须和</span><code>complex.PDB</code><span>文件中链出现的顺序一致，且与ensemble参数的声明顺序一致</span></b><span>，如：</span></p><p><span>若</span><code>complex.PDB</code><span>中链出现顺序为B,C,D,A，其中B,C属于配体，则在</span><code>L.PDB</code><span>中出现的顺序也应为B,C；D,A属于受体，则在</span><code>R.PDB</code><span>中出现的顺序也应为D,A；由于BC先于DA出现，则应声明</span><code>-partner BC_DA</code><span>；且</span><code>-ensemble1</code><span>应对应于先出现的BC的</span><code>L.PDB</code><span>，</span><code>-ensemble2</code><span>对应于后出现的DA的</span><code>R.PDB</code></p></blockquote><h3 id='42-运行docking'><span>4.2 运行Docking</span></h3><p><span>Prepacking和Local Docking所使用的子程序分别为</span><code>docking_prepack_protocol.xxx.xxx</code><span>和</span><code>docking_protocol.xxx.xxx</code><span>，如本例中分别为</span><code>$RosettaHOME/docking_prepack_protocol.static.linuxgccrelease</code><span>和</span><code>$RosettaHOME/docking_protocol.static.linuxgccrelease</code></p><p><span>批量运行的脚本</span><code>sh/dock.sh</code><span>如下</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="bash" style="break-inside: unset;"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang="bash"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 10.2375px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 833.125px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>44</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># ! bin/bash</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># Using "nohup sh sh/dock.sh &amp;"</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">touch</span> ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cat</span> /dev/null &gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">rm</span> <span class="cm-attribute">-rf</span> docking</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> docking</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#Generate Log Files</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">touch</span> docking/LOG.log</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n ###################\n\n"</span> &gt;&gt;  ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">15</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\nStart From:"</span> &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">16</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">date &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">17</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\n"</span>  &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">18</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">19</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#####################</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">20</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># Entering 'docking'</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">21</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#####################</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">22</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> ./docking</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">23</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">24</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">rm</span> <span class="cm-attribute">-rf</span> output</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">25</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> output</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">26</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">27</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#input中链出现的顺序应与ensemble1到ensemble2的顺序一致，并与-partners 声明顺序一致</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">28</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">29</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">$RosettaHOME</span>/docking_prepack_protocol.static.linuxgccrelease @../flag/docking_prepack_flag</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">30</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">31</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">$RosettaHOME</span>/docking_protocol.static.linuxgccrelease @../flag/docking_flag</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">32</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">33</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> ../</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">34</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#####################</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">35</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># Exit 'docking'</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">36</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#####################</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">37</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"To:"</span> &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">38</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">date &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">39</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">40</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\nALL THE RELAX DONE\n\n"</span> &gt;&gt;  ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">41</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">echo</span> <span class="cm-attribute">-e</span> <span class="cm-string">"\n\n######################\n\n"</span> &gt;&gt; ./nohup.out</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">42</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">43</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cat</span> ./nohup.out &gt; docking/LOG.log</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">44</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cat</span> /dev/null &gt; ./nohup.out</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 1077px;"></div><div class="CodeMirror-gutters" style="height: 1077px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 36px;"></div></div></div></div></pre><p><span>prepacking后，原始的ensemble目录下会生成</span><code>.ppk</code><span>文件；运行Docking后，其结果可在工作目录下的</span><code>./docking/output</code><span>中找到，包括生成的对接后PDB结构文件和评分文件</span><code>score_ensemble_docking.sc</code></p><h2 id='5-结果分析'><span>5. 结果分析</span></h2><p><span>一般而言，总评分越小（一般为负值），对接效果越好。选取评分最小的多个PDB文件，查看其结构合理性。对于对接后的结构，可以进一步采用能量最小化等方法进行局部优化，排除不合理的原子接触。</span></p><p><span>示例脚本</span><code>sh/rank.sh</code><span> 提供了一个用于按照SCORE排序，并将前10个结果单独复制至</span><code>docking/output/top</code></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="bash" style="break-inside: unset;"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang="bash"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 10.2375px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 851.55px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>25</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#!/bin/bash</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> docking/output</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">rm</span> <span class="cm-attribute">-rf</span> <span class="cm-builtin">top</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> <span class="cm-builtin">top</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">#使用排名前几的结构</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">TopRank</span><span class="cm-operator">=</span><span class="cm-number">10</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># 创建一个临时文件来存储排名前10的信息</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">touch</span> <span class="cm-builtin">top</span>/rank.sc</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">touch</span> <span class="cm-builtin">top</span>/toprank.sc</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">15</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># 提取排名和分数信息，排序并输出前10个到临时文件</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">16</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">awk</span> <span class="cm-string">'NR &gt; 2 {print $2, $40}'</span> score_ensemble_docking.sc | <span class="cm-builtin">sort</span> <span class="cm-attribute">-k1</span>,1n <span class="cm-attribute">-r</span> <span class="cm-attribute">-t</span> <span class="cm-string">" "</span> &gt; <span class="cm-builtin">top</span>/rank.sc</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">17</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">head <span class="cm-attribute">-n</span> <span class="cm-def">$TopRank</span> <span class="cm-builtin">top</span>/rank.sc&gt; <span class="cm-builtin">top</span>/toprank.sc</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">18</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">19</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment"># 读取临时文件中的文件名并复制对应的文件到top目录，并进行重命名</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">20</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">rank</span><span class="cm-operator">=</span><span class="cm-number">1</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">21</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">while</span> read <span class="cm-attribute">-r</span> score origin_filename; <span class="cm-keyword">do</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">22</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  <span class="cm-def">new_filename</span><span class="cm-operator">=</span><span class="cm-string">"</span><span class="cm-def">${rank}</span><span class="cm-string">_</span><span class="cm-def">${score}</span><span class="cm-string">.pdb"</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">23</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  <span class="cm-builtin">cp</span> <span class="cm-string">"</span><span class="cm-def">${origin_filename}</span><span class="cm-string">.pdb"</span> <span class="cm-string">"top/</span><span class="cm-def">${new_filename}</span><span class="cm-string">"</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 28px;">24</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  <span class="cm-def">rank</span><span class="cm-operator">=</span><span class="cm-quote">$((</span><span class="cm-def">$rank</span><span class="cm-quote">+1))</span></span></pre></div><div style="position: relative;" class=""><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 28px;">25</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">done</span> &lt; <span class="cm-builtin">top</span>/toprank.sc</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 612px;"></div><div class="CodeMirror-gutters" style="height: 612px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 36px;"></div></div></div></div></pre><p>&nbsp;</p><h1 id='附脚本和参数文件'><span>附：脚本和参数文件</span></h1><p><a href='../../file/RosettaDocking_demo.zip'><span>RosettaDocking_demo</span></a></p></div></div>
+
+<script>(function(){var e=document.body.parentElement,t=[],n=null,i=document.body.classList.contains("typora-export-collapse-outline"),r=function(e,t,n){document.addEventListener(e,function(e){if(!e.defaultPrevented)for(var i=e.target;i&&i!=this;i=i.parentNode)if(i.matches(t)){!1===n.call(i,e)&&(e.preventDefault(),e.stopPropagation());break}},!1)};function o(){return e.scrollTop}r("click",".outline-expander",function(e){var t=this.closest(".outline-item-wrapper").classList;return t.contains("outline-item-open")?t.remove("outline-item-open"):t.add("outline-item-open"),d(),!1}),r("click",".outline-item",function(e){var t=this.querySelector(".outline-label");if(location.hash="#"+t.getAttribute("href"),i){var n=this.closest(".outline-item-wrapper").classList;n.contains("outline-item-open")||n.add("outline-item-open"),c(),n.add("outline-item-active")}});var a,s,l=function(){var e=o();n=null;for(var i=0;i<t.length&&t[i][1]-e<60;i++)n=t[i]},c=function(){document.querySelectorAll(".outline-item-active").forEach(e=>e.classList.remove("outline-item-active")),document.querySelectorAll(".outline-item-single.outline-item-open").forEach(e=>e.classList.remove("outline-item-open"))},d=function(){if(n){c();var e=document.querySelector('.outline-label[href="#'+(CSS.escape?CSS.escape(n[0]):n[0])+'"]');if(e)if(i){var t=e.closest(".outline-item-open>ul>.outline-item-wrapper");if(t)t.classList.add("outline-item-active");else{for(var r=(e=e.closest(".outline-item-wrapper")).parentElement.closest(".outline-item-wrapper");r;)r=(e=r).parentElement.closest(".outline-item-wrapper");e.classList.add("outline-item-active")}}else e.closest(".outline-item-wrapper").classList.add("outline-item-active")}};window.addEventListener("scroll",function(e){a&&clearTimeout(a),a=setTimeout(function(){l(),d()},300)});var u=function(){s=setTimeout(function(){!function(){t=[];var e=o();document.querySelector("#write").querySelectorAll("h1, h2, h3, h4, h5, h6").forEach(n=>{var i=n.getAttribute("id");t.push([i,e+n.getBoundingClientRect().y])})}(),l(),d()},300)};window.addEventListener("resize",function(e){s&&clearTimeout(s),u()}),u()})();</script></body>
+</html>
